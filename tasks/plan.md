@@ -38,7 +38,7 @@ spells.ts, bonds.ts, abilities ────────────────�
 ### Phase 1: Foundation and first slice
 - [x] Task 1: Project scaffold and toolchain
 - [x] Task 2: Seedable dice and RNG helpers
-- [ ] Task 3: Class data, attribute roll, HP and slot count
+- [x] Task 3: Class data, attribute roll, HP and slot count
 - [ ] Task 4: First slice: Roll button shows a basic character
 
 ### Checkpoint 1: Foundation

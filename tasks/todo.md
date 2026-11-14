@@ -53,18 +53,18 @@ npm commands in agent shells: `source ~/.nvm/nvm.sh && npm …`
 
 ---
 
-### - [ ] Task 3: Class data, attribute roll, HP and slot count
+### - [x] Task 3: Class data, attribute roll, HP and slot count
 
 **Description:** Encode the seven classes (HP per level, armour and weapon proficiencies, fixed gear, attribute matrix) and implement the attribute roll plus the HP and slot formulas. This is the highest-risk rules logic, so it comes first.
 
 **Acceptance criteria:**
-- [ ] `CLASSES` matches SPEC.md › class reference data and attribute matrix, with page citations
-- [ ] `rollAttributes(rng, classId)`: result is a permutation of 14/13/10/8/7; 14 is on an allowed main and 13 on an allowed secondary (Ranger never puts both on the same attribute). Checked over 1,000 seeded rolls per class
-- [ ] `startingHp` = `floor(CON / 2) + hpPerLevel`; `slotCapacity` = `max(10, STR)` (tested at boundaries, e.g. STR 7 → 10, STR 14 → 14)
+- [x] `CLASSES` matches SPEC.md › class reference data and attribute matrix, with page citations
+- [x] `rollAttributes(rng, classId)`: result is a permutation of 14/13/10/8/7; 14 is on an allowed main and 13 on an allowed secondary (Ranger never puts both on the same attribute). Checked over 1,000 seeded rolls per class
+- [x] `startingHp` = `floor(CON / 2) + hpPerLevel`; `slotCapacity` = `max(10, STR)` (tested at boundaries, e.g. STR 7 → 10, STR 14 → 14)
 
 **Verification:**
-- [ ] Tests pass: `npm test -- tests/generate.test.ts tests/derive.test.ts`
-- [ ] Build succeeds: `npm run build`
+- [x] Tests pass: `npm test -- tests/generate.test.ts tests/derive.test.ts`
+- [x] Build succeeds: `npm run build`
 
 **Dependencies:** Task 2
 
