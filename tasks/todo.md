@@ -10,19 +10,19 @@ npm commands in agent shells: `source ~/.nvm/nvm.sh && npm …`
 
 ## Phase 1: Foundation and first slice
 
-### - [ ] Task 1: Project scaffold and toolchain
+### - [x] Task 1: Project scaffold and toolchain
 
 **Description:** Set up Vite + TypeScript (strict) + Vitest with the scripts listed in SPEC.md › Commands, a placeholder page, and git hygiene, so later tasks have a working test and build loop.
 
 **Acceptance criteria:**
-- [ ] `package.json` has `dev`, `test`, `test:watch`, `typecheck`, `build`, `preview` scripts matching the spec; `engines.node` set; Vite 7, Vitest 3, TypeScript 5 pinned
-- [ ] `tsconfig.json` has `"strict": true`; `vite.config.ts` sets `base: './'`
-- [ ] `.nvmrc` pins Node 26; `.gitignore` covers `node_modules/`, `dist/`, `coverage/` and `*.pdf`
+- [x] `package.json` has `dev`, `test`, `test:watch`, `typecheck`, `build`, `preview` scripts matching the spec; `engines.node` set; Vite 7, Vitest 5, TypeScript 5 pinned
+- [x] `tsconfig.json` has `"strict": true`; `vite.config.ts` sets `base: './'`
+- [x] `.nvmrc` pins Node 26; `.gitignore` covers `node_modules/`, `dist/`, `coverage/` and `*.pdf`
 
 **Verification:**
-- [ ] Tests pass: `npm test` (one smoke test)
-- [ ] Build succeeds: `npm run build` produces `dist/index.html` with relative asset paths
-- [ ] Manual check: `npm run dev` serves the placeholder page
+- [x] Tests pass: `npm test` (config test: relative base path)
+- [x] Build succeeds: `npm run build` produces `dist/index.html` with relative asset paths
+- [x] Manual check: `npm run dev` serves the placeholder page
 
 **Dependencies:** None
 

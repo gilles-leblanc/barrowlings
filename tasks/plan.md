@@ -16,7 +16,7 @@ Tasks are tracked in `tasks/todo.md` (full acceptance criteria and verification 
 - **Character stores choices, not derived values.** HP, slots, AV, shield and weapon damage are computed by `derive.ts` at render time, so swapping attributes or changing kit can't leave stale numbers.
 - **One page, two stylesheets.** The screen and print layouts share the same markup; `print.css` turns it into the playtest-sheet layout.
 - **Relative asset paths (`base: './'`)** so `dist/` works on any static host or sub-path (GitHub Pages).
-- **Toolchain:** Node 26 via nvm (`.nvmrc`), Vite 7, Vitest 3, TypeScript 5. Agent shells are non-interactive and don't read `~/.zshrc`, so npm commands run as `source ~/.nvm/nvm.sh && npm …`.
+- **Toolchain:** Node 26 via nvm (`.nvmrc`), Vite 7, Vitest 5, TypeScript 5. Agent shells are non-interactive and don't read `~/.zshrc`, so npm commands run as `source ~/.nvm/nvm.sh && npm …`.
 
 ## Dependency Graph
 
@@ -36,7 +36,7 @@ spells.ts, bonds.ts, abilities ────────────────�
 ## Task List
 
 ### Phase 1: Foundation and first slice
-- [ ] Task 1: Project scaffold and toolchain
+- [x] Task 1: Project scaffold and toolchain
 - [ ] Task 2: Seedable dice and RNG helpers
 - [ ] Task 3: Class data, attribute roll, HP and slot count
 - [ ] Task 4: First slice: Roll button shows a basic character
@@ -85,7 +85,8 @@ spells.ts, bonds.ts, abilities ────────────────�
 ## Decisions (approved 2026-11-14)
 
 1. `*.pdf` is in `.gitignore`: the rulebook PDFs and their licensed cover art are never committed.
-2. `@vitest/coverage-v8` is an approved dev dependency for the 100% coverage target on `src/rules/`.
+2. `@vitest/coverage-v8` is an approved dev dependency for the 100% coverage target on `src/rules/` (version must match Vitest).
+3. Vitest 5.1.0 instead of 3.x: Vitest 3 had 2 critical and 1 moderate audit advisories (approved during Task 1).
 
 ## Open Questions
 

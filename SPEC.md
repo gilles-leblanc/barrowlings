@@ -88,7 +88,7 @@ The game has no primary stats. This matrix only makes the default roll useful fo
 ## Tech Stack
 
 - Node 26 via nvm (pinned in `.nvmrc`), TypeScript 5.x, Vite 7.x, plain DOM, no UI framework.
-- Vitest 3.x for unit tests.
+- Vitest 5.x for unit tests (5.1.0; Vitest 3 had critical audit advisories).
 - Fonts from Google Fonts or self-hosted.
 - Output: a static `dist/` folder, deployable to GitHub Pages, Netlify or Cloudflare Pages.
 
