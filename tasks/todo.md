@@ -32,18 +32,18 @@ npm commands in agent shells: `source ~/.nvm/nvm.sh && npm …`
 
 ---
 
-### - [ ] Task 2: Seedable dice and RNG helpers
+### - [x] Task 2: Seedable dice and RNG helpers
 
 **Description:** Pure randomness helpers that every generator uses: a seedable RNG, die rolls, picking from a list, and shuffling.
 
 **Acceptance criteria:**
-- [ ] `createRng(seed)` returns a deterministic `Rng` (same seed → same sequence); `defaultRng` wraps `Math.random`
-- [ ] `roll(rng, sides)` returns 1…sides; `rollMany(rng, count, sides)` sums (e.g. 4d4 → 4…16); `pick(rng, list)` and `shuffle(rng, list)` (non-mutating)
-- [ ] Over 10,000 seeded rolls, every face of a d6 / d8 appears and nothing falls outside the range
+- [x] `createRng(seed)` returns a deterministic `Rng` (same seed → same sequence); `defaultRng` wraps `Math.random`
+- [x] `roll(rng, sides)` returns 1…sides; `rollMany(rng, count, sides)` sums (e.g. 4d4 → 4…16); `pick(rng, list)` and `shuffle(rng, list)` (non-mutating)
+- [x] Over 10,000 seeded rolls, every face of a d6 / d8 appears and nothing falls outside the range
 
 **Verification:**
-- [ ] Tests pass: `npm test -- tests/dice.test.ts`
-- [ ] Build succeeds: `npm run build`
+- [x] Tests pass: `npm test -- tests/dice.test.ts`
+- [x] Build succeeds: `npm run build`
 
 **Dependencies:** Task 1
 
