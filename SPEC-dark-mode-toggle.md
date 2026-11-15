@@ -1,6 +1,6 @@
 # Spec Delta: Dark Mode Toggle
 
-Status: proposed
+Status: approved
 
 ## Objective
 
@@ -13,7 +13,7 @@ See SPEC.md › Requirements: visual design. The theme follows the operating sys
 ## New Behavior
 
 - A **theme toggle button** in the header, next to Print.
-  - Its visible label says which theme it switches to ("Dark mode" / "Light mode"), and it exposes its state to screen readers (`aria-pressed`).
+  - A fixed label, "Dark mode", with its on/off state exposed to screen readers (`aria-pressed`) and shown visually (filled when on). This follows the WAI-ARIA toggle-button pattern. *(Changed during Task 2: the original wording, a label that switches between "Dark mode" and "Light mode" plus `aria-pressed`, would have been announced contradictorily, e.g. "Light mode, pressed".)*
   - It is the same height as the other header buttons (≥ 44px) and keyboard operable.
 - **Starting theme:** follows the system setting, as today, until the player uses the toggle.
 - **Remembered choice:** after the player toggles, the choice is saved in the browser (`localStorage`) and used on later visits. If storage is unavailable (private window, blocked), the toggle still works for the current visit.
@@ -23,7 +23,7 @@ See SPEC.md › Requirements: visual design. The theme follows the operating sys
 
 ## Success Criteria
 
-- [ ] Clicking the toggle switches the whole page between the V1 light and dark colours, and its label and `aria-pressed` state update.
+- [ ] Clicking the toggle switches the whole page between the V1 light and dark colours, and its `aria-pressed` state and filled look update.
 - [ ] With no saved choice, the page follows the system setting (same as V1).
 - [ ] A saved choice overrides the system setting on reload; the dark choice shows no light flash.
 - [ ] If `localStorage` throws, the toggle still switches the theme for the visit, with no console errors.

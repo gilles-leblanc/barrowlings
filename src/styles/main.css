@@ -19,19 +19,19 @@
   --space-6: 1.5rem;
   --space-8: 2rem;
 
-  color-scheme: light dark;
+  color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --ink: #f1ede4;
-    --paper: #121212;
-    --muted: #bdb7aa; /* 9.6:1 on paper */
-    --rule: #f1ede4;
-    --field: #1d1d1d;
-    --accent: #ff6b6b; /* 6.6:1 on paper */
-    --focus: #ff6b6b;
-  }
+/* Dark theme. index.html sets data-theme before first paint from the saved choice or the system setting. */
+:root[data-theme='dark'] {
+  --ink: #f1ede4;
+  --paper: #121212;
+  --muted: #bdb7aa; /* 9.6:1 on paper */
+  --rule: #f1ede4;
+  --field: #1d1d1d;
+  --accent: #ff6b6b; /* 6.6:1 on paper */
+  --focus: #ff6b6b;
+  color-scheme: dark;
 }
 
 *,
@@ -114,13 +114,12 @@ select {
   cursor: pointer;
 }
 
-@media (prefers-color-scheme: dark) {
-  #roll-form button[type='submit'] {
-    color: #121212;
-  }
+:root[data-theme='dark'] #roll-form button[type='submit'] {
+  color: #121212;
 }
 
-#print-button {
+#print-button,
+#theme-toggle {
   min-height: 48px;
   padding: 0 var(--space-6);
   background: transparent;
@@ -130,6 +129,12 @@ select {
   text-transform: uppercase;
   letter-spacing: 0.04em;
   cursor: pointer;
+}
+
+/* Pressed (dark mode on): filled, so the state is visible as well as announced */
+#theme-toggle[aria-pressed='true'] {
+  background: var(--ink);
+  color: var(--paper);
 }
 
 #print-button:disabled {

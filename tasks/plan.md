@@ -20,10 +20,10 @@ Tasks are tracked in `tasks/todo.md`.
 
 ### Phase 1: Toggle
 - [x] Task 1: Theme logic and safe storage
-- [ ] Task 2: Toggle button, theme CSS and no-flash start
+- [x] Task 2: Toggle button, theme CSS and no-flash start
 
 ### Checkpoint: Toggle works locally
-- [ ] Tests and build pass; toggle checked in Chrome (switch, reload, blocked storage, 360px, print)
+- [x] Tests and build pass; toggle checked in Chrome (switch, reload, blocked storage, 360px, print)
 
 ### Phase 2: Release
 - [ ] Task 3: Update SPEC.md and README, mark the delta implemented, push to deploy

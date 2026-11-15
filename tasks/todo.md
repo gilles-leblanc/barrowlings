@@ -31,19 +31,19 @@ npm commands in agent shells: `source ~/.nvm/nvm.sh && npm …`
 
 ---
 
-### - [ ] Task 2: Toggle button, theme CSS and no-flash start
+### - [x] Task 2: Toggle button, theme CSS and no-flash start
 
 **Description:** Add the header toggle, drive the colours from `data-theme` on `<html>`, and set a saved theme before first paint.
 
 **Acceptance criteria:**
-- [ ] Header button next to Print, ≥ 44px, labelled with the theme it switches to ("Dark mode" / "Light mode"), with `aria-pressed` reflecting dark mode; clicking switches the page and saves the choice
-- [ ] CSS: dark tokens apply for `data-theme="dark"`, or with no `data-theme` when the system prefers dark; light tokens otherwise; V1 colours unchanged
-- [ ] Inline `<head>` script applies a saved choice before first paint; print stays black on white in both themes
+- [x] Header button next to Print, ≥ 44px, fixed label "Dark mode" with `aria-pressed` reflecting dark mode and a filled look when on (spec wording adjusted, see the delta spec); clicking switches the page and saves the choice
+- [x] CSS: dark tokens apply for `data-theme="dark"`, or with no `data-theme` when the system prefers dark; light tokens otherwise; V1 colours unchanged
+- [x] Inline `<head>` script applies a saved choice before first paint; print stays black on white in both themes
 
 **Verification:**
-- [ ] Tests pass: `npm test`
-- [ ] Build succeeds: `npm run build`
-- [ ] Manual check (Chrome): toggle both ways; reload keeps the choice; with `localStorage` made to throw, the toggle still works and the console is clean; 360px layout; forced print view is black on white with dark mode on
+- [x] Tests pass: `npm test`
+- [x] Build succeeds: `npm run build`
+- [x] Manual check (Chrome): toggle both ways; reload keeps the choice; with `localStorage` made to throw, the toggle still works and the console is clean; 360px layout; forced print view is black on white with dark mode on
 
 **Dependencies:** Task 1
 
@@ -54,8 +54,8 @@ npm commands in agent shells: `source ~/.nvm/nvm.sh && npm …`
 ---
 
 ### Checkpoint: Toggle works locally
-- [ ] All tests pass, build succeeds
-- [ ] All Task 2 manual checks pass
+- [x] All tests pass, build succeeds
+- [x] All Task 2 manual checks pass
 
 ---
 

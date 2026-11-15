@@ -4,6 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Barrows &amp; Banshees Character Generator</title>
+    <script>
+      // Applies the theme before first paint. Mirrors readSavedTheme + resolveTheme in src/rules/theme.ts.
+      ;(function () {
+        var saved = null
+        try {
+          saved = localStorage.getItem('theme')
+        } catch (e) {}
+        var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light'
+      })()
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -21,6 +32,7 @@
         </select>
         <button type="submit">Roll a Character</button>
         <button type="button" id="print-button" disabled>Print</button>
+        <button type="button" id="theme-toggle" aria-pressed="false">Dark mode</button>
       </form>
     </header>
     <main id="sheet" aria-live="polite">

@@ -4,6 +4,7 @@ import { CLASS_IDS, CLASSES, type ClassId } from './data/classes'
 import { defaultRng } from './rules/dice'
 import { editText, generateCharacter, rerollSection, swapAttributes, type Character } from './rules/generate'
 import { renderPrintSheet } from './ui/print'
+import { initThemeToggle } from './ui/theme-toggle'
 import { renderSheet, type SheetActions } from './ui/sheet'
 
 const form = document.querySelector<HTMLFormElement>('#roll-form')!
@@ -33,6 +34,7 @@ function show(next: Character): void {
 }
 
 printButton.addEventListener('click', () => window.print())
+initThemeToggle(document.querySelector<HTMLButtonElement>('#theme-toggle')!)
 
 form.addEventListener('submit', (event) => {
   event.preventDefault()
