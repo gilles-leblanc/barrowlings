@@ -61,8 +61,8 @@ spells.ts, bonds.ts, abilities ────────────────�
 - [x] Task 9: Manual edits and attribute swaps
 
 ### Checkpoint 3: Interaction
-- [ ] All user stories work in the browser
-- [ ] Tests and build pass
+- [x] All user stories work in the browser
+- [x] Tests and build pass
 
 ### Phase 4: Presentation and release
 - [x] Task 10: Screen visual design and accessibility
@@ -72,8 +72,8 @@ spells.ts, bonds.ts, abilities ────────────────�
 - [x] Task 13: Mark items over the slot limit (screen and print)
 
 ### Checkpoint 4: Complete
-- [ ] Every Success Criteria item in SPEC.md is checked
-- [ ] Ready for review
+- [x] Every Success Criteria item in SPEC.md is checked
+- [x] Ready for review
 
 ## Risks and Mitigations
 

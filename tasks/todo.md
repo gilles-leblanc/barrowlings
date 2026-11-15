@@ -227,9 +227,9 @@ npm commands in agent shells: `source ~/.nvm/nvm.sh && npm …`
 ---
 
 ### Checkpoint 3: Interaction
-- [ ] All four user stories in SPEC.md work in the browser
-- [ ] All tests pass, build succeeds
-- [ ] Review with human before proceeding
+- [x] All four user stories in SPEC.md work in the browser
+- [x] All tests pass, build succeeds
+- [x] Review with human before proceeding (passed 2026-11-14)
 
 ---
 
@@ -267,7 +267,7 @@ npm commands in agent shells: `source ~/.nvm/nvm.sh && npm …`
 
 **Verification:**
 - [x] Build succeeds: `npm run build`
-- [ ] Manual check: print preview in Chrome and Firefox, A4 and Letter, for a Wizard (spells) and the Paladin kit with the most items. **Left for the human: the agent cannot open the print dialog. Agent check: print layout previewed on screen at A4 width (186mm): page 1 is 200mm tall (Letter printable 255mm, A4 273mm), no truncated fields with the longest bond.**
+- [x] Manual check: print preview in Chrome and Firefox, A4 and Letter, for a Wizard (spells) and the Paladin kit with the most items. (Done by the author 2026-11-14: Wizard page 2, A4 and Letter, Ranger Capacity line, Firefox all good.)
 
 **Dependencies:** Task 10
 
@@ -324,5 +324,5 @@ npm commands in agent shells: `source ~/.nvm/nvm.sh && npm …`
 ---
 
 ### Checkpoint 4: Complete
-- [ ] All Success Criteria in SPEC.md met
-- [ ] Ready for review
+- [x] All Success Criteria in SPEC.md met
+- [x] Ready for review

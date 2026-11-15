@@ -167,8 +167,8 @@ export function startingHp(attrs: Attributes, classId: ClassId): number {
 - [x] Items past the character's slot capacity are visibly marked on screen and in print (tested for which items are over).
 - [x] Each rolled section can be re-rolled on its own without changing other sections (except class, which re-rolls its dependents).
 - [x] Any two attributes can be swapped, and HP and slots update.
-- [ ] Printing produces page 1 with the full playtest-sheet layout, in black and white, on both A4 and US Letter. Overflow (spells, abilities) goes to page 2 only. *(Layout previewed on screen at A4 width: page 1 is 200mm, under Letter's 255mm printable height. Real print preview in Chrome and Firefox still to be checked by the author.)*
-- [x] The page is usable at 360px wide, keyboard operable, and meets WCAG AA contrast. *(Dark-mode contrast checked by computed ratios, not visually.)*
+- [x] Printing produces page 1 with the full playtest-sheet layout, in black and white, on both A4 and US Letter. Overflow (spells, abilities) goes to page 2 only. *(Checked by the author in Chrome and Firefox print preview.)*
+- [x] The page is usable at 360px wide, keyboard operable, and meets WCAG AA contrast. *(Dark mode also checked visually by the author.)*
 - [x] `npm test` passes with 100% line coverage on `src/rules/`.
 
 ## Out of Scope (Deferred)
