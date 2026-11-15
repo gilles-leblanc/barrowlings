@@ -74,19 +74,19 @@ npm commands in agent shells: `source ~/.nvm/nvm.sh && npm …`
 
 ---
 
-### - [ ] Task 4: First slice: Roll button shows a basic character
+### - [x] Task 4: First slice: Roll button shows a basic character
 
 **Description:** First end-to-end slice. Add backgrounds, characteristics, traits and sample names to the class data; implement `generateCharacter(rng, classId?)`; render a basic sheet with a Roll button and class picker (Random by default).
 
 **Acceptance criteria:**
-- [ ] Each class has 6 backgrounds, 8 characteristics, 8 traits, 10 names (tested by length)
-- [ ] `generateCharacter` returns class, name, background, one characteristic, one trait, attributes, level 1, deeds 0; a chosen class is respected; Random picks any class
-- [ ] Clicking **Roll a Character** renders those fields plus HP and slot capacity
+- [x] Each class has 6 backgrounds, 8 characteristics, 8 traits, 10 names (tested by length)
+- [x] `generateCharacter` returns class, name, background, one characteristic, one trait, attributes, level 1, deeds 0; a chosen class is respected; Random picks any class
+- [x] Clicking **Roll a Character** renders those fields plus HP and slot capacity (code in place; click-through pending the Checkpoint 1 manual check)
 
 **Verification:**
-- [ ] Tests pass: `npm test`
-- [ ] Build succeeds: `npm run build`
-- [ ] Manual check: in `npm run dev`, roll 10 times with Random and with each class; fields always populated
+- [x] Tests pass: `npm test`
+- [x] Build succeeds: `npm run build`
+- [ ] Manual check: in `npm run dev`, roll 10 times with Random and with each class; fields always populated. **Not done by the agent: Chrome extension was not connected. Dev server served the page and all modules (HTTP 200). Left for the human at Checkpoint 1.**
 
 **Dependencies:** Task 3
 

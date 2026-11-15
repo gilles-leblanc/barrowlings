@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { ATTRIBUTE_IDS, CLASS_IDS, CLASSES, type AttributeId, type Attributes } from '../src/data/classes'
 import { createRng } from '../src/rules/dice'
-import { rollAttributes } from '../src/rules/generate'
+import { generateCharacter, rollAttributes } from '../src/rules/generate'
 
 function attributeWithValue(attrs: Attributes, value: number): AttributeId {
   const found = ATTRIBUTE_IDS.find((id) => attrs[id] === value)
@@ -58,5 +58,63 @@ describe('rollAttributes', () => {
 
   it('the same seed gives the same attributes', () => {
     expect(rollAttributes(createRng(6), 'thief')).toEqual(rollAttributes(createRng(6), 'thief'))
+  })
+})
+
+describe('class tables (pp. 34–59)', () => {
+  it.each(CLASS_IDS)('%s has 6 backgrounds, 8 characteristics, 8 traits and 10 names', (classId) => {
+    const c = CLASSES[classId]
+    expect(c.backgrounds).toHaveLength(6)
+    expect(c.characteristics).toHaveLength(8)
+    expect(c.traits).toHaveLength(8)
+    expect(c.names).toHaveLength(10)
+  })
+
+  it.each(CLASS_IDS)('%s tables have no blank or duplicate entries', (classId) => {
+    const c = CLASSES[classId]
+    for (const table of [c.backgrounds, c.characteristics, c.traits, c.names]) {
+      expect(table.every((entry) => entry.trim().length > 0)).toBe(true)
+      expect(new Set(table).size).toBe(table.length)
+    }
+  })
+})
+
+describe('generateCharacter', () => {
+  it('respects a chosen class', () => {
+    expect(generateCharacter(createRng(1), 'witch').classId).toBe('witch')
+  })
+
+  it('picks every class over many random rolls', () => {
+    const rng = createRng(2)
+    const seen = new Set<string>()
+    for (let i = 0; i < 500; i++) seen.add(generateCharacter(rng).classId)
+    expect([...seen].sort()).toEqual([...CLASS_IDS].sort())
+  })
+
+  it.each(CLASS_IDS)('%s: name, background, characteristic and trait come from the class tables', (classId) => {
+    const rng = createRng(3)
+    const c = CLASSES[classId]
+    for (let i = 0; i < 100; i++) {
+      const character = generateCharacter(rng, classId)
+      expect(c.names).toContain(character.name)
+      expect(c.backgrounds).toContain(character.background)
+      expect(c.characteristics).toContain(character.characteristic)
+      expect(c.traits).toContain(character.trait)
+    }
+  })
+
+  it('starts at level 1 with 0 deeds (pp. 30, 66)', () => {
+    const character = generateCharacter(createRng(4), 'warrior')
+    expect(character.level).toBe(1)
+    expect(character.deeds).toBe(0)
+  })
+
+  it('rolls attributes that follow the class matrix', () => {
+    const character = generateCharacter(createRng(5), 'thief')
+    expect(attributeWithValue(character.attributes, 14)).toBe('dex')
+  })
+
+  it('the same seed gives the same character', () => {
+    expect(generateCharacter(createRng(6))).toEqual(generateCharacter(createRng(6)))
   })
 })

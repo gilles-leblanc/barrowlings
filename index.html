@@ -6,9 +6,17 @@
     <title>Barrows &amp; Banshees Character Generator</title>
   </head>
   <body>
-    <main id="app">
+    <header>
       <h1>Barrows &amp; Banshees</h1>
-    </main>
+      <form id="roll-form">
+        <label for="class-picker">Class</label>
+        <select id="class-picker" name="class">
+          <option value="">Random</option>
+        </select>
+        <button type="submit">Roll a Character</button>
+      </form>
+    </header>
+    <main id="sheet" aria-live="polite"></main>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

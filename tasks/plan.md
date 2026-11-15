@@ -39,7 +39,7 @@ spells.ts, bonds.ts, abilities ────────────────�
 - [x] Task 1: Project scaffold and toolchain
 - [x] Task 2: Seedable dice and RNG helpers
 - [x] Task 3: Class data, attribute roll, HP and slot count
-- [ ] Task 4: First slice: Roll button shows a basic character
+- [x] Task 4: First slice: Roll button shows a basic character
 
 ### Checkpoint 1: Foundation
 - [ ] `npm test` and `npm run build` pass
