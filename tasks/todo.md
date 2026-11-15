@@ -10,18 +10,18 @@ npm commands in agent shells: `source ~/.nvm/nvm.sh && npm …`
 
 ## Phase 1: Toggle
 
-### - [ ] Task 1: Theme logic and safe storage
+### - [x] Task 1: Theme logic and safe storage
 
 **Description:** Pure functions in `src/rules/theme.ts`: decide the theme from a saved choice and the system preference, flip it, and read/write the saved choice through a storage object without ever throwing.
 
 **Acceptance criteria:**
-- [ ] `resolveTheme(saved, systemPrefersDark)`: a valid saved `'light'`/`'dark'` wins; anything else (null, garbage) falls back to the system preference
-- [ ] `toggleTheme(theme)` returns the other theme
-- [ ] `readSavedTheme(storage)` and `saveTheme(storage, theme)` work with a normal storage and return/ignore safely when storage is missing or throws
+- [x] `resolveTheme(saved, systemPrefersDark)`: a valid saved `'light'`/`'dark'` wins; anything else (null, garbage) falls back to the system preference
+- [x] `toggleTheme(theme)` returns the other theme
+- [x] `readSavedTheme(storage)` and `saveTheme(storage, theme)` work with a normal storage and return/ignore safely when storage is missing or throws
 
 **Verification:**
-- [ ] Tests pass: `npm test -- tests/theme.test.ts` (and full suite, 100% lines on `src/rules/`)
-- [ ] Build succeeds: `npm run build`
+- [x] Tests pass: `npm test -- tests/theme.test.ts` (and full suite, 100% lines on `src/rules/`)
+- [x] Build succeeds: `npm run build`
 
 **Dependencies:** None
 

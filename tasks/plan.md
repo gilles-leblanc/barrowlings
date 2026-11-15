@@ -19,7 +19,7 @@ Tasks are tracked in `tasks/todo.md`.
 ## Task List
 
 ### Phase 1: Toggle
-- [ ] Task 1: Theme logic and safe storage
+- [x] Task 1: Theme logic and safe storage
 - [ ] Task 2: Toggle button, theme CSS and no-flash start
 
 ### Checkpoint: Toggle works locally
