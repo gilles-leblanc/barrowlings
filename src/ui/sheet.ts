@@ -1,11 +1,19 @@
-import { ATTRIBUTE_IDS, CLASSES, type AttributeId } from '../data/classes'
+import { allCharacteristics, allTraits, ATTRIBUTE_IDS, CLASSES, type AttributeId } from '../data/classes'
 import { gearItems, ITEMS, type ItemName } from '../data/gear'
 import { isCaster, SPELLS } from '../data/spells'
 import { armourValue, hasShield, slotCapacity, startingHp, weaponsWithDamage } from '../rules/derive'
-import type { Character } from '../rules/generate'
-import { rerollButton, type RerollHandler } from './controls'
+import type { Character, Section, TextField } from '../rules/generate'
+import { rerollButton } from './controls'
 
-const ATTRIBUTE_NAMES: Record<AttributeId, string> = {
+export interface SheetActions {
+  reroll(section: Section): void
+  /** Text edits don't change derived values, so the sheet is not re-rendered (keeps focus). */
+  edit(field: TextField, value: string): void
+  /** Swapping changes HP and slots, so the sheet is re-rendered. */
+  swap(a: AttributeId, b: AttributeId): void
+}
+
+export const ATTRIBUTE_NAMES: Record<AttributeId, string> = {
   str: 'Strength',
   dex: 'Dexterity',
   con: 'Constitution',
@@ -36,25 +44,75 @@ function heading(text: string, button?: HTMLButtonElement): HTMLHeadingElement {
   return h2
 }
 
-/** Renders the character into `container`, replacing what was there. All data goes in as text. */
-export function renderSheet(container: HTMLElement, character: Character, onReroll: RerollHandler): void {
+/** A labelled text input (or textarea) that reports edits as the user types. */
+function editable(
+  label: string,
+  field: TextField,
+  value: string,
+  actions: SheetActions,
+  options: { button?: HTMLButtonElement; list?: string; multiline?: boolean } = {},
+): HTMLDivElement {
+  const id = `field-${field}`
+  const input = options.multiline ? el('textarea') : el('input')
+  input.id = id
+  input.value = value
+  if (input instanceof HTMLInputElement) {
+    input.type = 'text'
+    if (options.list) input.setAttribute('list', options.list)
+  } else {
+    input.rows = 2
+  }
+  input.addEventListener('input', () => actions.edit(field, input.value))
+
+  const labelEl = el('label', label)
+  labelEl.htmlFor = id
+  const dd = el('dd', undefined, [input])
+  if (options.button) dd.append(' ', options.button)
+  return el('div', undefined, [el('dt', undefined, [labelEl]), dd])
+}
+
+function datalist(id: string, entries: string[]): HTMLDataListElement {
+  const list = el('datalist')
+  list.id = id
+  list.append(...entries.map((entry) => new Option(entry)))
+  return list
+}
+
+function attributeRow(id: AttributeId, value: number, actions: SheetActions): HTMLDivElement {
+  const select = el('select')
+  select.setAttribute('aria-label', `Swap ${ATTRIBUTE_NAMES[id]} with`)
+  select.append(new Option('Swap with…', ''))
+  for (const other of ATTRIBUTE_IDS) {
+    if (other !== id) select.append(new Option(ATTRIBUTE_NAMES[other], other))
+  }
+  select.addEventListener('change', () => {
+    if (select.value) actions.swap(id, select.value as AttributeId)
+  })
+  return el('div', undefined, [el('dt', ATTRIBUTE_NAMES[id]), el('dd', String(value), [document.createTextNode(' '), select])])
+}
+
+/** Renders the character into `container`, replacing what was there. All data goes in as text or input values. */
+export function renderSheet(container: HTMLElement, character: Character, actions: SheetActions): void {
   const { attributes } = character
-  const reroll = (section: Parameters<RerollHandler>[0]) => rerollButton(section, onReroll)
+  const reroll = (section: Section) => rerollButton(section, actions.reroll)
 
   const identity = el('dl', undefined, [
-    field('Name', character.name, reroll('name')),
+    editable('Name', 'name', character.name, actions, { button: reroll('name') }),
     field('Class', CLASSES[character.classId].name, reroll('class')),
     field('Level', character.level),
-    field('Background', character.background, reroll('background')),
+    editable('Background', 'background', character.background, actions, { button: reroll('background') }),
     field('Deeds', character.deeds),
-    field('Characteristic', character.characteristic, reroll('characteristic')),
-    field('Trait', character.trait, reroll('trait')),
+    editable('Characteristic', 'characteristic', character.characteristic, actions, {
+      button: reroll('characteristic'),
+      list: 'all-characteristics',
+    }),
+    editable('Trait', 'trait', character.trait, actions, { button: reroll('trait'), list: 'all-traits' }),
   ])
 
   const attributeList = el(
     'dl',
     undefined,
-    ATTRIBUTE_IDS.map((id) => field(ATTRIBUTE_NAMES[id], attributes[id])),
+    ATTRIBUTE_IDS.map((id) => attributeRow(id, attributes[id], actions)),
   )
 
   const items = gearItems(character.classId, character.gear.kit)
@@ -72,12 +130,14 @@ export function renderSheet(container: HTMLElement, character: Character, onRero
   )
 
   const bond = el('dl', undefined, [
-    field('Bond', character.bond.text, reroll('bond')),
-    field('Party Member', character.bond.partyMember),
-    field('Languages', character.languages),
+    editable('Bond', 'bond', character.bond.text, actions, { button: reroll('bond'), multiline: true }),
+    editable('Party Member', 'partyMember', character.bond.partyMember, actions),
+    editable('Languages', 'languages', character.languages, actions),
   ])
 
   container.replaceChildren(
+    datalist('all-characteristics', allCharacteristics()),
+    datalist('all-traits', allTraits()),
     el('section', undefined, [el('h2', 'Character'), identity]),
     el('section', undefined, [el('h2', 'Bond & Languages'), bond]),
     el('section', undefined, [heading('Attributes', reroll('attributes')), attributeList]),

@@ -198,3 +198,12 @@ export const CLASSES: Record<ClassId, ClassData> = {
     ],
   },
 }
+
+/** p.30: characteristics and traits may be picked from any class. Unique, in class order. */
+export function allCharacteristics(): string[] {
+  return [...new Set(CLASS_IDS.flatMap((id) => CLASSES[id].characteristics))]
+}
+
+export function allTraits(): string[] {
+  return [...new Set(CLASS_IDS.flatMap((id) => CLASSES[id].traits))]
+}

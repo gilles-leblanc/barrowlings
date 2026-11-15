@@ -1,4 +1,4 @@
-import { ATTRIBUTE_IDS, CLASS_IDS, CLASSES, type Attributes, type ClassId } from '../data/classes'
+import { ATTRIBUTE_IDS, CLASS_IDS, CLASSES, type AttributeId, type Attributes, type ClassId } from '../data/classes'
 import { BONDS } from '../data/bonds'
 import { isCaster, SPELLS } from '../data/spells'
 import { roll, rollMany, pick, shuffle, type Rng } from './dice'
@@ -140,4 +140,19 @@ export function rerollSection(rng: Rng, character: Character, section: Section):
         spells: rerollUntilDifferent(() => rollSpells(rng, character.classId).sort(), [...character.spells].sort()),
       }
   }
+}
+
+/** p.60: any arrangement of the attribute values is allowed, so any two can be swapped. */
+export function swapAttributes(character: Character, a: AttributeId, b: AttributeId): Character {
+  const attributes = { ...character.attributes, [a]: character.attributes[b], [b]: character.attributes[a] }
+  return { ...character, attributes }
+}
+
+export type TextField = 'name' | 'background' | 'characteristic' | 'trait' | 'languages' | 'bond' | 'partyMember'
+
+/** Hand edits from the sheet. `bond` is the bond text; `partyMember` the other character's name. */
+export function editText(character: Character, field: TextField, value: string): Character {
+  if (field === 'bond') return { ...character, bond: { ...character.bond, text: value } }
+  if (field === 'partyMember') return { ...character, bond: { ...character.bond, partyMember: value } }
+  return { ...character, [field]: value }
 }

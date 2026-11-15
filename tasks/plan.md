@@ -58,7 +58,7 @@ spells.ts, bonds.ts, abilities ────────────────�
 
 ### Phase 3: Interaction
 - [x] Task 8: Per-section re-roll and class change cascade
-- [ ] Task 9: Manual edits and attribute swaps
+- [x] Task 9: Manual edits and attribute swaps
 
 ### Checkpoint 3: Interaction
 - [ ] All user stories work in the browser

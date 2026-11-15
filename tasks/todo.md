@@ -204,19 +204,19 @@ npm commands in agent shells: `source ~/.nvm/nvm.sh && npm …`
 
 ---
 
-### - [ ] Task 9: Manual edits and attribute swaps
+### - [x] Task 9: Manual edits and attribute swaps
 
 **Description:** Let the player edit text fields (name, background, characteristic, trait, bond text, bond's other character, languages), choose a characteristic or trait from any class's table, and swap any two attribute values with HP and slots updating.
 
 **Acceptance criteria:**
-- [ ] `swapAttributes(character, a, b)` swaps any two values with no restriction; the result stays a permutation of 14/13/10/8/7 (tested for all pairs)
-- [ ] Characteristic and trait pickers list every class's table plus free text
-- [ ] Languages is an empty free-text field by default; edits survive re-rolls of other sections
+- [x] `swapAttributes(character, a, b)` swaps any two values with no restriction; the result stays a permutation of 14/13/10/8/7 (tested for all pairs)
+- [x] Characteristic and trait pickers list every class's table plus free text
+- [x] Languages is an empty free-text field by default; edits survive re-rolls of other sections
 
 **Verification:**
-- [ ] Tests pass: `npm test`
-- [ ] Build succeeds: `npm run build`
-- [ ] Manual check: swap CON with another value; HP updates. Swap STR to 14; slot capacity updates
+- [x] Tests pass: `npm test`
+- [x] Build succeeds: `npm run build`
+- [x] Manual check: swap CON with another value; HP updates. Swap STR to 14; slot capacity updates
 
 **Dependencies:** Task 8
 
