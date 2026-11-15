@@ -1,95 +1,44 @@
-# Implementation Plan: Barrows & Banshees Character Generator — V1
+# Implementation Plan: Dark Mode Toggle
 
-Source spec: SPEC.md
+Source spec: SPEC-dark-mode-toggle.md
 
 ## Overview
 
-A static Vite + TypeScript site that rolls a level-1 character following *Barrows and Banshees v0.17*, lets the player re-roll or edit each part, and prints a one-page sheet. All rules are pure functions over typed data with an injected RNG, so they can be tested deterministically. The UI is plain DOM.
+Add a header button that switches the site between the existing V1 light and dark themes, starting from the system setting and remembering the player's choice in `localStorage`. Print stays black on white. The V1 plan is archived in `tasks/archive/v1/`.
 
-Tasks are tracked in `tasks/todo.md` (full acceptance criteria and verification for each task).
+Tasks are tracked in `tasks/todo.md`.
 
 ## Architecture Decisions
 
-- **Pure rules core, thin UI.** `src/rules/` never touches the DOM or `Math.random()`. The UI holds one `Character` state object; every user action produces a new state through a rules function, and the sheet re-renders from that state. This makes re-roll and swap trivially testable.
-- **Seedable RNG (mulberry32, ~10 lines) instead of a library.** No dependency, and deterministic tests.
-- **Data as typed constants.** One module per concern (`classes`, `gear`, `spells`, `bonds`), each entry citing its rulebook page. Gear items carry a tag (`normal | encumbering | stack | tiny | worn`) plus optional `weapon` / `armour` / `shield` properties; derived values are computed from tags, never stored.
-- **Character stores choices, not derived values.** HP, slots, AV, shield and weapon damage are computed by `derive.ts` at render time, so swapping attributes or changing kit can't leave stale numbers.
-- **One page, two stylesheets.** The screen and print layouts share the same markup; `print.css` turns it into the playtest-sheet layout.
-- **Relative asset paths (`base: './'`)** so `dist/` works on any static host or sub-path (GitHub Pages).
-- **Toolchain:** Node 26 via nvm (`.nvmrc`), Vite 7, Vitest 5, TypeScript 5. Agent shells are non-interactive and don't read `~/.zshrc`, so npm commands run as `source ~/.nvm/nvm.sh && npm …`.
-
-## Dependency Graph
-
-```
-dice.ts (RNG)
-   │
-classes.ts ──► attributes + HP + slots ──► generateCharacter ──► sheet render (slice 1)
-   │                                            │
-gear.ts ──► AV / shield / weapons / slot use ───┤
-spells.ts, bonds.ts, abilities ─────────────────┤
-                                                ▼
-                                   re-roll & class cascade ──► manual edits & swaps
-                                                                     │
-                                                       screen styles ─┴─ print styles
-```
+- **One source of truth on the page: `<html data-theme="light|dark">`.** CSS keeps the V1 colour tokens; the dark tokens apply when `data-theme="dark"`, or when no theme is set and the system prefers dark (fallback if JavaScript doesn't run).
+- **Pure theme logic in `src/rules/theme.ts`** (saved choice + system preference → theme; next theme; safe storage read/write that never throws). Fully unit-tested, so `src/rules/` keeps 100% line coverage.
+- **No-flash inline script in `index.html`**: a few lines that read the saved choice and set `data-theme` before first paint. It duplicates the "read saved choice" rule in a tiny form because module scripts run after paint; noted in a comment pointing at `theme.ts`.
+- **Print** already forces black on white in `print.css`; a check confirms dark tokens don't leak into print.
+- No new dependencies.
 
 ## Task List
 
-### Phase 1: Foundation and first slice
-- [x] Task 1: Project scaffold and toolchain
-- [x] Task 2: Seedable dice and RNG helpers
-- [x] Task 3: Class data, attribute roll, HP and slot count
-- [x] Task 4: First slice: Roll button shows a basic character
+### Phase 1: Toggle
+- [ ] Task 1: Theme logic and safe storage
+- [ ] Task 2: Toggle button, theme CSS and no-flash start
 
-### Checkpoint 1: Foundation
-- [x] `npm test` and `npm run build` pass
-- [x] Clicking Roll in `npm run dev` shows class, name, background, characteristic, trait, attributes, HP
-- [x] Human review
+### Checkpoint: Toggle works locally
+- [ ] Tests and build pass; toggle checked in Chrome (switch, reload, blocked storage, 360px, print)
 
-### Phase 2: Complete character
-- [x] Task 5: Gear catalogue, class kits and data integrity tests
-- [x] Task 6: Derived gear values and inventory on the sheet
-- [x] Task 7: Spells, bonds and class abilities
+### Phase 2: Release
+- [ ] Task 3: Update SPEC.md and README, mark the delta implemented, push to deploy
 
-### Checkpoint 2: Complete character
-- [x] Every field in the spec's requirements tables renders
-- [x] **Human reviews the gear classification in `src/data/gear.ts`**
-- [x] Tests and build pass
-
-### Phase 3: Interaction
-- [x] Task 8: Per-section re-roll and class change cascade
-- [x] Task 9: Manual edits and attribute swaps
-
-### Checkpoint 3: Interaction
-- [x] All user stories work in the browser
-- [x] Tests and build pass
-
-### Phase 4: Presentation and release
-- [x] Task 10: Screen visual design and accessibility
-- [x] Task 11: Print stylesheet
-- [x] Task 12: Final verification against Success Criteria and deploy notes
-
-- [x] Task 13: Mark items over the slot limit (screen and print)
-
-### Checkpoint 4: Complete
-- [x] Every Success Criteria item in SPEC.md is checked
-- [x] Ready for review
+### Checkpoint: Live
+- [ ] Toggle works on https://gilles-leblanc.github.io/barrowlings/
 
 ## Risks and Mitigations
 
 | Risk | Impact | Mitigation |
 |------|--------|------------|
-| Gear data entry errors (≈30 kit lines, ~150 items) | High | Data integrity test over every class × kit; human review at Checkpoint 2 |
-| Gear tags for items not in the equipment list are judgement calls | Med | Rules stated in the spec; full list in one file for the author to review |
-| Page 1 overflows when printing (long kits, long bond text) | Med | Fixed slot grid like the playtest sheet; truncate-free small type for bond; spells/abilities on page 2; test the longest kit |
-| A4 vs US Letter differences | Low | Size to the smaller printable area of both; check both in print preview |
-| nvm not loaded in non-interactive agent shells | Low | Source `~/.nvm/nvm.sh` in every npm command; `.nvmrc` pins the version |
-## Decisions (approved 2026-11-14)
-
-1. `*.pdf` is in `.gitignore`: the rulebook PDFs and their licensed cover art are never committed.
-2. `@vitest/coverage-v8` is an approved dev dependency for the 100% coverage target on `src/rules/` (version must match Vitest).
-3. Vitest 5.1.0 instead of 3.x: Vitest 3 had 2 critical and 1 moderate audit advisories (approved during Task 1).
-4. Over-limit marking in print (Task 13): a heavy rule across the inventory grid after the character's last allowed slot, labelled "Capacity", with the slots below it lightly shaded. Black and white, and it still works once the sheet is filled in by hand.
+| Light flash for players who chose dark | Low | Inline pre-paint script in `<head>` |
+| `localStorage` blocked (private windows, strict settings) | Low | All access wrapped in try/catch; tested with a throwing storage |
+| Dark tokens leaking into print | Low | Print styles set explicit black/white; checked with a forced print preview |
+| Pushing to `main` deploys publicly | Med | Deploy is Task 3 only, after local checks; approved as part of this plan |
 
 ## Open Questions
 

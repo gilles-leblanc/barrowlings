@@ -1,328 +1,87 @@
-# Tasks: Barrows & Banshees Character Generator — V1
+# Tasks: Dark Mode Toggle
 
-Source spec: SPEC.md · Plan: tasks/plan.md
+Source spec: SPEC-dark-mode-toggle.md · Plan: tasks/plan.md
 
-Every task must also meet the standing Definition of Done: acceptance criteria met, tests that fail without the change, no regressions, `npm test` and `npm run build` pass, no dead code or debug output, scoped to the task.
+Every task must also meet the standing Definition of Done: acceptance criteria met, tests that fail without the change, no regressions, `npm test` and `npm run build` pass, scoped to the task.
 
 npm commands in agent shells: `source ~/.nvm/nvm.sh && npm …`
 
 ---
 
-## Phase 1: Foundation and first slice
+## Phase 1: Toggle
 
-### - [x] Task 1: Project scaffold and toolchain
+### - [ ] Task 1: Theme logic and safe storage
 
-**Description:** Set up Vite + TypeScript (strict) + Vitest with the scripts listed in SPEC.md › Commands, a placeholder page, and git hygiene, so later tasks have a working test and build loop.
+**Description:** Pure functions in `src/rules/theme.ts`: decide the theme from a saved choice and the system preference, flip it, and read/write the saved choice through a storage object without ever throwing.
 
 **Acceptance criteria:**
-- [x] `package.json` has `dev`, `test`, `test:watch`, `typecheck`, `build`, `preview` scripts matching the spec; `engines.node` set; Vite 7, Vitest 5, TypeScript 5 pinned
-- [x] `tsconfig.json` has `"strict": true`; `vite.config.ts` sets `base: './'`
-- [x] `.nvmrc` pins Node 26; `.gitignore` covers `node_modules/`, `dist/`, `coverage/` and `*.pdf`
+- [ ] `resolveTheme(saved, systemPrefersDark)`: a valid saved `'light'`/`'dark'` wins; anything else (null, garbage) falls back to the system preference
+- [ ] `toggleTheme(theme)` returns the other theme
+- [ ] `readSavedTheme(storage)` and `saveTheme(storage, theme)` work with a normal storage and return/ignore safely when storage is missing or throws
 
 **Verification:**
-- [x] Tests pass: `npm test` (config test: relative base path)
-- [x] Build succeeds: `npm run build` produces `dist/index.html` with relative asset paths
-- [x] Manual check: `npm run dev` serves the placeholder page
+- [ ] Tests pass: `npm test -- tests/theme.test.ts` (and full suite, 100% lines on `src/rules/`)
+- [ ] Build succeeds: `npm run build`
 
 **Dependencies:** None
 
-**Files likely touched:** `package.json`, `tsconfig.json`, `vite.config.ts`, `index.html`, `src/main.ts`, `.gitignore`, `.nvmrc`, `tests/smoke.test.ts` (config-only files; still one concern)
+**Files likely touched:** `src/rules/theme.ts`, `tests/theme.test.ts`
 
-**Estimated scope:** M
+**Estimated scope:** S
 
 ---
 
-### - [x] Task 2: Seedable dice and RNG helpers
+### - [ ] Task 2: Toggle button, theme CSS and no-flash start
 
-**Description:** Pure randomness helpers that every generator uses: a seedable RNG, die rolls, picking from a list, and shuffling.
+**Description:** Add the header toggle, drive the colours from `data-theme` on `<html>`, and set a saved theme before first paint.
 
 **Acceptance criteria:**
-- [x] `createRng(seed)` returns a deterministic `Rng` (same seed → same sequence); `defaultRng` wraps `Math.random`
-- [x] `roll(rng, sides)` returns 1…sides; `rollMany(rng, count, sides)` sums (e.g. 4d4 → 4…16); `pick(rng, list)` and `shuffle(rng, list)` (non-mutating)
-- [x] Over 10,000 seeded rolls, every face of a d6 / d8 appears and nothing falls outside the range
+- [ ] Header button next to Print, ≥ 44px, labelled with the theme it switches to ("Dark mode" / "Light mode"), with `aria-pressed` reflecting dark mode; clicking switches the page and saves the choice
+- [ ] CSS: dark tokens apply for `data-theme="dark"`, or with no `data-theme` when the system prefers dark; light tokens otherwise; V1 colours unchanged
+- [ ] Inline `<head>` script applies a saved choice before first paint; print stays black on white in both themes
 
 **Verification:**
-- [x] Tests pass: `npm test -- tests/dice.test.ts`
-- [x] Build succeeds: `npm run build`
+- [ ] Tests pass: `npm test`
+- [ ] Build succeeds: `npm run build`
+- [ ] Manual check (Chrome): toggle both ways; reload keeps the choice; with `localStorage` made to throw, the toggle still works and the console is clean; 360px layout; forced print view is black on white with dark mode on
 
 **Dependencies:** Task 1
 
-**Files likely touched:** `src/rules/dice.ts`, `tests/dice.test.ts`
+**Files likely touched:** `index.html`, `src/styles/main.css`, `src/main.ts`, `src/ui/theme-toggle.ts`
 
-**Estimated scope:** S
+**Estimated scope:** M
 
 ---
 
-### - [x] Task 3: Class data, attribute roll, HP and slot count
+### Checkpoint: Toggle works locally
+- [ ] All tests pass, build succeeds
+- [ ] All Task 2 manual checks pass
 
-**Description:** Encode the seven classes (HP per level, armour and weapon proficiencies, fixed gear, attribute matrix) and implement the attribute roll plus the HP and slot formulas. This is the highest-risk rules logic, so it comes first.
+---
+
+## Phase 2: Release
+
+### - [ ] Task 3: Update SPEC.md and README, mark the delta implemented, push to deploy
+
+**Description:** Fold the change into the main spec so it describes the current site, mark the delta spec implemented, and publish via the existing GitHub Pages workflow.
 
 **Acceptance criteria:**
-- [x] `CLASSES` matches SPEC.md › class reference data and attribute matrix, with page citations
-- [x] `rollAttributes(rng, classId)`: result is a permutation of 14/13/10/8/7; 14 is on an allowed main and 13 on an allowed secondary (Ranger never puts both on the same attribute). Checked over 1,000 seeded rolls per class
-- [x] `startingHp` = `floor(CON / 2) + hpPerLevel`; `slotCapacity` = `max(10, STR)` (tested at boundaries, e.g. STR 7 → 10, STR 14 → 14)
+- [ ] SPEC.md › Requirements: visual design describes the toggle and remembered choice; README feature list mentions it
+- [ ] `SPEC-dark-mode-toggle.md` has `Status: implemented` and its Success Criteria are ticked
+- [ ] Pushed to `main`; the deploy workflow succeeds
 
 **Verification:**
-- [x] Tests pass: `npm test -- tests/generate.test.ts tests/derive.test.ts`
-- [x] Build succeeds: `npm run build`
+- [ ] Tests pass and build succeeds (also in the workflow)
+- [ ] Manual check: the toggle works on https://gilles-leblanc.github.io/barrowlings/ (switch, reload)
 
 **Dependencies:** Task 2
 
-**Files likely touched:** `src/data/classes.ts`, `src/rules/generate.ts`, `src/rules/derive.ts`, `tests/generate.test.ts`, `tests/derive.test.ts`
-
-**Estimated scope:** M
-
----
-
-### - [x] Task 4: First slice: Roll button shows a basic character
-
-**Description:** First end-to-end slice. Add backgrounds, characteristics, traits and sample names to the class data; implement `generateCharacter(rng, classId?)`; render a basic sheet with a Roll button and class picker (Random by default).
-
-**Acceptance criteria:**
-- [x] Each class has 6 backgrounds, 8 characteristics, 8 traits, 10 names (tested by length)
-- [x] `generateCharacter` returns class, name, background, one characteristic, one trait, attributes, level 1, deeds 0; a chosen class is respected; Random picks any class
-- [x] Clicking **Roll a Character** renders those fields plus HP and slot capacity (code in place; click-through pending the Checkpoint 1 manual check)
-
-**Verification:**
-- [x] Tests pass: `npm test`
-- [x] Build succeeds: `npm run build`
-- [x] Manual check: in `npm run dev`, roll 10 times with Random and with each class; fields always populated. (Done by the human at Checkpoint 1; the agent's Chrome extension was not connected.)
-
-**Dependencies:** Task 3
-
-**Files likely touched:** `src/data/classes.ts`, `src/rules/generate.ts`, `src/ui/sheet.ts`, `src/main.ts`, `tests/generate.test.ts`
-
-**Estimated scope:** M
-
----
-
-### Checkpoint 1: Foundation
-- [x] All tests pass
-- [x] Build succeeds
-- [x] Roll flow works end-to-end in the browser
-- [x] Review with human before proceeding (passed 2026-11-14)
-
----
-
-## Phase 2: Complete character
-
-### - [x] Task 5: Gear catalogue, class kits and data integrity tests
-
-**Description:** Encode every item that appears in class fixed gear, the four kits per class, and the common gear (clothes, rations, waterskin). Each item gets a tag following SPEC.md › derived values; weapons get a category, armour an AV, shields a flag. Gear generation picks a kit (d4) and adds 4d4 coins.
-
-**Acceptance criteria:**
-- [x] Every kit item from pp. 34–58 exists in the catalogue with a tag and, where relevant, weapon category / armour / shield; equipment-list tags (p.76–77) used where they exist
-- [x] Data integrity test: every class × kit (with fixed and common gear) uses ≤ 10 slots; every class has exactly 4 kits
-- [x] `rollGear(rng)` returns a kit (1–4) and coins in 4…16; `gearItems(classId, kit)` gives fixed + optional + kit + common gear (character stores the kit choice, items are looked up)
-
-**Verification:**
-- [x] Tests pass: `npm test -- tests/gear.test.ts`
-- [x] Build succeeds: `npm run build`
-
-**Notes for Checkpoint 2 review:** items marked `REVIEW` in `src/data/gear.ts`; the Wizard's optional spellbook is always included; Paladin kit 3 has a hunting bow but no arrows (as in the rulebook).
-
-**Dependencies:** Task 2, Task 3
-
-**Files likely touched:** `src/data/gear.ts`, `src/rules/generate.ts`, `tests/gear.test.ts`
-
-**Estimated scope:** M
-
----
-
-### - [x] Task 6: Derived gear values and inventory on the sheet
-
-**Description:** Compute armour value, shield, weapons with damage dice (including the proficiency downgrade, p.18) and slot usage from the gear, and render them: weapons list, AV, shield checkbox, inventory slots, tiny items, worn items, coins.
-
-**Acceptance criteria:**
-- [x] `armourValue`, `hasShield`, `weaponsWithDamage` (downgrade tested with a non-proficient weapon, e.g. a Wizard with a long sword → d4), `slotsUsed` all derived from gear
-- [x] Gambeson kits give AV 1; no other kit item gives AV; shield kits tick Shield
-- [x] The sheet shows weapons with dice, AV, shield, slot items (stacks with 4 check boxes), tiny items, worn items and coins
-
-**Verification:**
-- [x] Tests pass: `npm test -- tests/derive.test.ts`
-- [x] Build succeeds: `npm run build`
-- [x] Manual check: roll a Warrior until kit 1 (gambeson, AV 1) and kit 2 (shield); values shown correctly
-
-**Dependencies:** Task 4, Task 5
-
-**Files likely touched:** `src/rules/derive.ts`, `src/ui/sheet.ts`, `tests/derive.test.ts`
-
-**Estimated scope:** M
-
----
-
-### - [x] Task 7: Spells, bonds and class abilities
-
-**Description:** Add level-1 spell lists (Cleric, Witch, Wizard), the 17 bonds, and short class ability summaries. Casters roll 2 distinct level-1 spells; everyone rolls a bond. Render a Bond line with a blank other-character field, a Spells box (casters only) and an Abilities list.
-
-**Acceptance criteria:**
-- [x] Spell lists match pp. 82, 87, 93 (4 level-1 spells each); casters get 2 distinct spells from their own list; non-casters get none
-- [x] 17 bonds match pp. 63–64; one is rolled; the other-character name starts empty
-- [x] Abilities for all seven classes render; Spells box only for casters
-
-**Verification:**
-- [x] Tests pass: `npm test`
-- [x] Build succeeds: `npm run build`
-- [x] Manual check: roll a Witch, a Warrior and a Wizard; check spells, bond and abilities
-
-**Dependencies:** Task 4
-
-**Files likely touched:** `src/data/spells.ts`, `src/data/bonds.ts`, `src/data/classes.ts`, `src/rules/generate.ts`, `src/ui/sheet.ts`
-
-**Estimated scope:** M
-
----
-
-### Checkpoint 2: Complete character
-- [x] Every field in SPEC.md › requirements renders after one click
-- [x] **Human reviews the gear classification in `src/data/gear.ts`** (done 2026-11-14)
-- [x] All tests pass, build succeeds
-
----
-
-## Phase 3: Interaction
-
-### - [x] Task 8: Per-section re-roll and class change cascade
-
-**Description:** Add a re-roll control to each rolled section (class, background, kit, characteristic, trait, name, attributes, bond, spells). Re-rolling one section leaves the others alone; changing class re-rolls background, kit, name, spells and attributes.
-
-**Acceptance criteria:**
-- [x] `rerollSection(rng, character, section)` changes only that section (tested for every section)
-- [x] Changing class re-rolls exactly its dependents and keeps languages, bond and the bond's other-character name
-- [x] Each section has a visible, keyboard-reachable re-roll button with an accessible label
-
-**Verification:**
-- [x] Tests pass: `npm test -- tests/generate.test.ts`
-- [x] Build succeeds: `npm run build`
-- [x] Manual check: re-roll each section in the browser; nothing else changes
-
-**Dependencies:** Task 6, Task 7
-
-**Files likely touched:** `src/rules/generate.ts`, `src/ui/controls.ts`, `src/ui/sheet.ts`, `src/main.ts`, `tests/generate.test.ts`
-
-**Estimated scope:** M
-
----
-
-### - [x] Task 9: Manual edits and attribute swaps
-
-**Description:** Let the player edit text fields (name, background, characteristic, trait, bond text, bond's other character, languages), choose a characteristic or trait from any class's table, and swap any two attribute values with HP and slots updating.
-
-**Acceptance criteria:**
-- [x] `swapAttributes(character, a, b)` swaps any two values with no restriction; the result stays a permutation of 14/13/10/8/7 (tested for all pairs)
-- [x] Characteristic and trait pickers list every class's table plus free text
-- [x] Languages is an empty free-text field by default; edits survive re-rolls of other sections
-
-**Verification:**
-- [x] Tests pass: `npm test`
-- [x] Build succeeds: `npm run build`
-- [x] Manual check: swap CON with another value; HP updates. Swap STR to 14; slot capacity updates
-
-**Dependencies:** Task 8
-
-**Files likely touched:** `src/rules/generate.ts`, `src/ui/controls.ts`, `src/ui/sheet.ts`, `tests/generate.test.ts`
-
-**Estimated scope:** M
-
----
-
-### Checkpoint 3: Interaction
-- [x] All four user stories in SPEC.md work in the browser
-- [x] All tests pass, build succeeds
-- [x] Review with human before proceeding (passed 2026-11-14)
-
----
-
-## Phase 4: Presentation and release
-
-### - [x] Task 10: Screen visual design and accessibility
-
-**Description:** Apply the spec's visual design: near-black on off-white, one accent colour, bold display headings, dark mode, phone-friendly layout, WCAG AA.
-
-**Acceptance criteria:**
-- [x] Colour tokens on `:root` with a dark-mode override; one accent colour only; all text pairs meet AA contrast
-- [x] Layout works at 360px with no horizontal scroll; touch targets ≥ 44px
-- [x] Visible focus styles; all controls keyboard-operable; semantic headings and labels
-
-**Verification:**
-- [x] Build succeeds: `npm run build`
-- [x] Manual check: 360px (via a 360px frame; window resize was blocked), light mode screenshots, all controls native buttons/inputs/selects with labels, no horizontal scroll. Dark mode and contrast verified by computed ratios in main.css, not visually (OS setting not switchable from the agent)
-
-**Dependencies:** Task 9
-
-**Files likely touched:** `src/styles/main.css`, `index.html`, `src/ui/sheet.ts`
+**Files likely touched:** `SPEC.md`, `SPEC-dark-mode-toggle.md`, `README.md`
 
 **Estimated scope:** S
 
 ---
 
-### - [x] Task 11: Print stylesheet
-
-**Description:** Print the character on one page using the playtest-sheet layout in pure black and white, with spells and abilities on page 2 only if they don't fit.
-
-**Acceptance criteria:**
-- [x] Page 1 has Name/Class/Level, Background/Deeds, Bond, attributes column, Languages, Characteristics/Traits, HP/Current, AV/Shield, Weapons, 18 inventory slots with 4 check boxes, Tiny items, Coins, Worn. Controls are hidden
-- [x] Black and white only; empty Languages and bond name print as blank lines
-- [x] The longest kit fits page 1 on both A4 and US Letter (measured on screen, see manual check)
-
-**Verification:**
-- [x] Build succeeds: `npm run build`
-- [x] Manual check: print preview in Chrome and Firefox, A4 and Letter, for a Wizard (spells) and the Paladin kit with the most items. (Done by the author 2026-11-14: Wizard page 2, A4 and Letter, Ranger Capacity line, Firefox all good.)
-
-**Dependencies:** Task 10
-
-**Files likely touched:** `src/styles/print.css`, `index.html`, `src/ui/sheet.ts`
-
-**Note:** print uses a separate print-only sheet (`src/ui/print.ts`) rendered from the same character, instead of restyling the screen markup: the playtest layout (18 slot lines, blank Current HP) differs too much from the screen form, and text inputs print poorly.
-
-**Estimated scope:** S
-
----
-
-### - [x] Task 12: Final verification against Success Criteria and deploy notes
-
-**Description:** Walk through every Success Criteria item in SPEC.md, add coverage reporting, fix gaps, and add a short README covering running, testing and deploying.
-
-**Acceptance criteria:**
-- [x] `npm test` reports 100% line coverage on `src/rules/` (via `@vitest/coverage-v8`, approved)
-- [x] `dist/` works when served from a sub-path (static server on a nested folder, checked in Chrome)
-- [x] README has run / test / build steps and GitHub Pages + Netlify deploy notes; every Success Criteria box in SPEC.md is checked except the real print preview (left for the author)
-
-**Verification:**
-- [x] Tests pass: `npm test`
-- [x] Build succeeds: `npm run build`
-- [x] Manual check: full roll → re-roll → edit → swap run in the built site, served from a nested sub-path (/games/barrowlings/); print sheet rendered (print dialog itself not opened)
-
-**Dependencies:** Task 11
-
-**Files likely touched:** `package.json`, `vite.config.ts`, `README.md`, `SPEC.md`
-
-**Estimated scope:** S
-
----
-
-### - [x] Task 13: Mark items over the slot limit (screen and print)
-
-**Description:** Count gear slots in order (fixed gear, kit, common gear) and mark every item whose slots go past `slotCapacity`. On screen, over-limit items use the accent colour plus a text marker (not colour alone, for accessibility). In print, a heavy rule labelled "Capacity" crosses the inventory grid after the last allowed slot, and the slots below it are lightly shaded (plan decision 4). Added at the author's request after the Checkpoint 2 gear review (Ranger kit 2 needs 11 slots).
-
-**Acceptance criteria:**
-- [x] `overLimitItems(character)` (or equivalent) returns exactly the items past capacity: none when under, the last item(s) when over; an encumbering item that straddles the limit counts as over (tested, including Ranger kit 2 at STR 10 vs STR 13)
-- [x] Screen: over-limit items are marked with the accent colour and a visible text label such as "Over limit", and the slot total shows used / capacity
-- [x] Print: a heavy "Capacity" rule after slot N (N = slot capacity) and lightly shaded slots below it, black and white only
-
-**Verification:**
-- [x] Tests pass: `npm test`
-- [x] Build succeeds: `npm run build`
-- [x] Manual check: roll Rangers until kit 2 with STR ≤ 10; the last item is marked on screen and the print preview shows the limit (agent: screen checked in Chrome; print layout previewed on screen, real print preview left for the human)
-
-**Dependencies:** Task 6, Task 11
-
-**Files likely touched:** `src/rules/derive.ts`, `src/ui/sheet.ts`, `src/styles/main.css`, `src/styles/print.css`, `tests/derive.test.ts`
-
-**Estimated scope:** M
-
----
-
-### Checkpoint 4: Complete
-- [x] All Success Criteria in SPEC.md met
-- [x] Ready for review
+### Checkpoint: Live
+- [ ] Toggle works on the live site
+- [ ] Ready for review
