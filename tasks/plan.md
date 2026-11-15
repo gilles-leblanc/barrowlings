@@ -26,10 +26,10 @@ Tasks are tracked in `tasks/todo.md`.
 - [x] Tests and build pass; toggle checked in Chrome (switch, reload, blocked storage, 360px, print)
 
 ### Phase 2: Release
-- [ ] Task 3: Update SPEC.md and README, mark the delta implemented, push to deploy
+- [x] Task 3: Update SPEC.md and README, mark the delta implemented, push to deploy
 
 ### Checkpoint: Live
-- [ ] Toggle works on https://gilles-leblanc.github.io/barrowlings/
+- [x] Toggle works on https://gilles-leblanc.github.io/barrowlings/
 
 ## Risks and Mitigations
 

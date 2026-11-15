@@ -30,7 +30,7 @@ See SPEC.md › Requirements: visual design. The theme follows the operating sys
 - [x] Printing is black on white in both themes.
 - [x] The theme logic (saved choice vs system setting → theme) is unit-tested; all existing tests still pass and `src/rules/` keeps 100% line coverage.
 - [x] Keyboard operable, visible focus, works at 360px.
-- [ ] Deployed to GitHub Pages via the existing workflow.
+- [x] Deployed to GitHub Pages via the existing workflow.
 
 ## Boundaries
 

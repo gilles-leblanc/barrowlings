@@ -61,18 +61,18 @@ npm commands in agent shells: `source ~/.nvm/nvm.sh && npm …`
 
 ## Phase 2: Release
 
-### - [ ] Task 3: Update SPEC.md and README, mark the delta implemented, push to deploy
+### - [x] Task 3: Update SPEC.md and README, mark the delta implemented, push to deploy
 
 **Description:** Fold the change into the main spec so it describes the current site, mark the delta spec implemented, and publish via the existing GitHub Pages workflow.
 
 **Acceptance criteria:**
-- [ ] SPEC.md › Requirements: visual design describes the toggle and remembered choice; README feature list mentions it
-- [ ] `SPEC-dark-mode-toggle.md` has `Status: implemented` and its Success Criteria are ticked
-- [ ] Pushed to `main`; the deploy workflow succeeds
+- [x] SPEC.md › Requirements: visual design describes the toggle and remembered choice; README feature list mentions it
+- [x] `SPEC-dark-mode-toggle.md` has `Status: implemented` and its Success Criteria are ticked
+- [x] Pushed to `main`; the deploy workflow succeeds
 
 **Verification:**
-- [ ] Tests pass and build succeeds (also in the workflow)
-- [ ] Manual check: the toggle works on https://gilles-leblanc.github.io/barrowlings/ (switch, reload)
+- [x] Tests pass and build succeeds (also in the workflow)
+- [x] Manual check: the toggle works on https://gilles-leblanc.github.io/barrowlings/ (switch, reload)
 
 **Dependencies:** Task 2
 
@@ -83,5 +83,5 @@ npm commands in agent shells: `source ~/.nvm/nvm.sh && npm …`
 ---
 
 ### Checkpoint: Live
-- [ ] Toggle works on the live site
-- [ ] Ready for review
+- [x] Toggle works on the live site
+- [x] Ready for review
