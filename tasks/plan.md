@@ -48,7 +48,7 @@ spells.ts, bonds.ts, abilities ────────────────�
 
 ### Phase 2: Complete character
 - [x] Task 5: Gear catalogue, class kits and data integrity tests
-- [ ] Task 6: Derived gear values and inventory on the sheet
+- [x] Task 6: Derived gear values and inventory on the sheet
 - [ ] Task 7: Spells, bonds and class abilities
 
 ### Checkpoint 2: Complete character

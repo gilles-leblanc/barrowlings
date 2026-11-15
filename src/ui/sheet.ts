@@ -1,5 +1,6 @@
 import { ATTRIBUTE_IDS, CLASSES, type AttributeId } from '../data/classes'
-import { slotCapacity, startingHp } from '../rules/derive'
+import { gearItems, ITEMS, type ItemName } from '../data/gear'
+import { armourValue, hasShield, slotCapacity, startingHp, weaponsWithDamage } from '../rules/derive'
 import type { Character } from '../rules/generate'
 
 const ATTRIBUTE_NAMES: Record<AttributeId, string> = {
@@ -45,14 +46,54 @@ export function renderSheet(container: HTMLElement, character: Character): void 
     ATTRIBUTE_IDS.map((id) => field(ATTRIBUTE_NAMES[id], attributes[id])),
   )
 
-  const vitals = el('dl', undefined, [
+  const items = gearItems(character.classId, character.gear.kit)
+  const weapons = weaponsWithDamage(items, character.classId)
+
+  const combat = el('dl', undefined, [
     field('HP', startingHp(attributes, character.classId)),
-    field('Inventory slots', slotCapacity(attributes)),
+    field('Armour Value', armourValue(items)),
+    field('Shield', hasShield(items) ? 'Yes' : 'No'),
   ])
+  const weaponList = el(
+    'ul',
+    undefined,
+    weapons.map((w) => el('li', `${w.name} (${w.die})`)),
+  )
 
   container.replaceChildren(
     el('section', undefined, [el('h2', 'Character'), identity]),
     el('section', undefined, [el('h2', 'Attributes'), attributeList]),
-    el('section', undefined, [el('h2', 'Vitals'), vitals]),
+    el('section', undefined, [el('h2', 'Combat'), combat, el('h3', 'Weapons'), weaponList]),
+    renderInventory(items, slotCapacity(attributes), character.gear.coins),
   )
+}
+
+const STACK_CHECKS = 4 // p.25: each stack has 4 checks
+
+function slotItem(name: ItemName): HTMLLIElement {
+  const { tag } = ITEMS[name]
+  const li = el('li', name)
+  if (tag === 'encumbering') li.append(el('span', ' (2 slots)'))
+  if (tag === 'stack') {
+    const boxes = el('span', ` ${'☐'.repeat(STACK_CHECKS)}`)
+    boxes.setAttribute('aria-label', `stack, ${STACK_CHECKS} checks`)
+    li.append(boxes)
+  }
+  return li
+}
+
+function renderInventory(items: ItemName[], capacity: number, coins: number): HTMLElement {
+  const byTag = (...tags: string[]) => items.filter((name) => tags.includes(ITEMS[name].tag))
+  const list = (names: ItemName[]) => el('p', names.join(', ') || '—')
+
+  return el('section', undefined, [
+    el('h2', 'Inventory'),
+    el('p', `Slots: ${capacity}`),
+    el('ol', undefined, byTag('normal', 'encumbering', 'stack').map(slotItem)),
+    el('h3', 'Tiny items'),
+    list(byTag('tiny')),
+    el('h3', 'Worn'),
+    list(byTag('worn')),
+    el('dl', undefined, [field('Coins', coins)]),
+  ])
 }

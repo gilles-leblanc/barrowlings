@@ -129,19 +129,19 @@ npm commands in agent shells: `source ~/.nvm/nvm.sh && npm …`
 
 ---
 
-### - [ ] Task 6: Derived gear values and inventory on the sheet
+### - [x] Task 6: Derived gear values and inventory on the sheet
 
 **Description:** Compute armour value, shield, weapons with damage dice (including the proficiency downgrade, p.18) and slot usage from the gear, and render them: weapons list, AV, shield checkbox, inventory slots, tiny items, worn items, coins.
 
 **Acceptance criteria:**
-- [ ] `armourValue`, `hasShield`, `weaponsWithDamage` (downgrade tested with a non-proficient weapon, e.g. a Wizard with a long sword → d4), `slotsUsed` all derived from gear
-- [ ] Gambeson kits give AV 1; no other kit item gives AV; shield kits tick Shield
-- [ ] The sheet shows weapons with dice, AV, shield, slot items (stacks with 4 check boxes), tiny items, worn items and coins
+- [x] `armourValue`, `hasShield`, `weaponsWithDamage` (downgrade tested with a non-proficient weapon, e.g. a Wizard with a long sword → d4), `slotsUsed` all derived from gear
+- [x] Gambeson kits give AV 1; no other kit item gives AV; shield kits tick Shield
+- [x] The sheet shows weapons with dice, AV, shield, slot items (stacks with 4 check boxes), tiny items, worn items and coins
 
 **Verification:**
-- [ ] Tests pass: `npm test -- tests/derive.test.ts`
-- [ ] Build succeeds: `npm run build`
-- [ ] Manual check: roll a Warrior until kit 1 (gambeson, AV 1) and kit 2 (shield); values shown correctly
+- [x] Tests pass: `npm test -- tests/derive.test.ts`
+- [x] Build succeeds: `npm run build`
+- [x] Manual check: roll a Warrior until kit 1 (gambeson, AV 1) and kit 2 (shield); values shown correctly
 
 **Dependencies:** Task 4, Task 5
 
