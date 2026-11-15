@@ -6,6 +6,7 @@ A static website that rolls level-1 characters for *Barrows and Banshees* (v0.17
 - Re-roll any section on its own (class, name, background, characteristic, trait, attributes, kit, bond, spells).
 - Edit any text by hand, swap any two attributes, and fill in languages and the bond's other character.
 - Print a sheet laid out like the playtest Character Sheet 1.2, with a "Capacity" line on the inventory.
+- Switch between light and dark themes with the "Dark mode" button; the site remembers your choice.
 
 The rules it implements, and the decisions behind them, are in [SPEC.md](SPEC.md).
 

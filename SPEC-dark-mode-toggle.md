@@ -1,6 +1,6 @@
 # Spec Delta: Dark Mode Toggle
 
-Status: approved
+Status: implemented
 
 ## Objective
 
@@ -23,13 +23,13 @@ See SPEC.md › Requirements: visual design. The theme follows the operating sys
 
 ## Success Criteria
 
-- [ ] Clicking the toggle switches the whole page between the V1 light and dark colours, and its `aria-pressed` state and filled look update.
-- [ ] With no saved choice, the page follows the system setting (same as V1).
-- [ ] A saved choice overrides the system setting on reload; the dark choice shows no light flash.
-- [ ] If `localStorage` throws, the toggle still switches the theme for the visit, with no console errors.
-- [ ] Printing is black on white in both themes.
-- [ ] The theme logic (saved choice vs system setting → theme) is unit-tested; all existing tests still pass and `src/rules/` keeps 100% line coverage.
-- [ ] Keyboard operable, visible focus, works at 360px.
+- [x] Clicking the toggle switches the whole page between the V1 light and dark colours, and its `aria-pressed` state and filled look update.
+- [x] With no saved choice, the page follows the system setting (same as V1).
+- [x] A saved choice overrides the system setting on reload; the dark choice shows no light flash.
+- [x] If `localStorage` throws, the toggle still switches the theme for the visit, with no console errors.
+- [x] Printing is black on white in both themes.
+- [x] The theme logic (saved choice vs system setting → theme) is unit-tested; all existing tests still pass and `src/rules/` keeps 100% line coverage.
+- [x] Keyboard operable, visible focus, works at 360px.
 - [ ] Deployed to GitHub Pages via the existing workflow.
 
 ## Boundaries

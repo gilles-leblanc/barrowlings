@@ -81,6 +81,7 @@ The game has no primary stats. This matrix only makes the default roll useful fo
 ### Requirements: visual design
 
 - High contrast: near-black on off-white, plus **one** accent colour (e.g. blood red) used sparingly. Dark mode inverts.
+- **Theme toggle** (added by SPEC-dark-mode-toggle.md): a "Dark mode" toggle button in the header (`aria-pressed`, filled when on). The theme starts from the system setting; once the player toggles, the choice is saved in `localStorage` and applied before first paint on later visits. If storage is blocked, the toggle still works for the visit. Print is always black on white.
 - Bold display font for headings (a heavy grotesque like the rulebook's chapter titles), readable body font.
 - Large touch targets; works at phone width (360px).
 - Print: pure black and white, no accent.
