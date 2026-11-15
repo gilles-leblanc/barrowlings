@@ -89,7 +89,8 @@ spells.ts, bonds.ts, abilities ────────────────�
 1. `*.pdf` is in `.gitignore`: the rulebook PDFs and their licensed cover art are never committed.
 2. `@vitest/coverage-v8` is an approved dev dependency for the 100% coverage target on `src/rules/` (version must match Vitest).
 3. Vitest 5.1.0 instead of 3.x: Vitest 3 had 2 critical and 1 moderate audit advisories (approved during Task 1).
+4. Over-limit marking in print (Task 13): a heavy rule across the inventory grid after the character's last allowed slot, labelled "Capacity", with the slots below it lightly shaded. Black and white, and it still works once the sheet is filled in by hand.
 
 ## Open Questions
 
-1. **Over-limit marking in print (Task 13).** Proposal: draw a heavy rule across the inventory grid after the character's last allowed slot, label it "Capacity", and shade the slots below it, so anything written or printed past the line is visibly over. Works in black and white and still helps once the sheet is filled in by hand. Decide before Task 13.
+None.
