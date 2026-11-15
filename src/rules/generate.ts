@@ -11,12 +11,12 @@ export function rollAttributes(rng: Rng, classId: ClassId): Attributes {
   const { mainAttributes, secondaryAttributes } = CLASSES[classId]
   const main = pick(rng, mainAttributes)
   const secondary = pick(rng, secondaryAttributes.filter((id) => id !== main))
-  const rest = ATTRIBUTE_IDS.filter((id) => id !== main && id !== secondary)
   const restValues = shuffle(rng, [10, 8, 7])
 
-  const attrs = { [main]: 14, [secondary]: 13 } as Partial<Attributes>
-  rest.forEach((id, i) => (attrs[id] = restValues[i]))
-  return attrs as Attributes
+  // Keys always come out in ATTRIBUTE_IDS order, so equal attributes compare equal.
+  return Object.fromEntries(
+    ATTRIBUTE_IDS.map((id) => [id, id === main ? 14 : id === secondary ? 13 : restValues.shift()!]),
+  ) as Attributes
 }
 
 export interface Gear {
@@ -79,5 +79,65 @@ export function generateCharacter(rng: Rng, classId: ClassId = pick(rng, CLASS_I
     languages: '',
     level: 1,
     deeds: 0,
+  }
+}
+
+/** Sections of the sheet that have their own re-roll button (SPEC.md › user flow). */
+export const SECTIONS = ['class', 'name', 'background', 'characteristic', 'trait', 'attributes', 'kit', 'bond', 'spells'] as const
+export type Section = (typeof SECTIONS)[number]
+
+/** Picks a value other than `current` when the list allows it, so a re-roll visibly changes something. */
+function pickOther<T>(rng: Rng, list: readonly T[], current: T): T {
+  const others = list.filter((item) => item !== current)
+  return pick(rng, others.length > 0 ? others : list)
+}
+
+/** Re-rolls until the result differs from `current` (by value), giving up after a few tries. */
+function rerollUntilDifferent<T>(roller: () => T, current: T): T {
+  let next = roller()
+  for (let i = 0; i < 20 && JSON.stringify(next) === JSON.stringify(current); i++) next = roller()
+  return next
+}
+
+/** Changes class and re-rolls everything that depends on it; keeps everything else (SPEC.md › user flow). */
+export function changeClass(rng: Rng, character: Character, classId: ClassId): Character {
+  const c = CLASSES[classId]
+  return {
+    ...character,
+    classId,
+    name: pick(rng, c.names),
+    background: pick(rng, c.backgrounds),
+    attributes: rollAttributes(rng, classId),
+    gear: { ...character.gear, kit: roll(rng, 4) },
+    spells: rollSpells(rng, classId),
+  }
+}
+
+/** Returns a new character with one section re-rolled and every other section untouched. */
+export function rerollSection(rng: Rng, character: Character, section: Section): Character {
+  const c = CLASSES[character.classId]
+  switch (section) {
+    case 'class':
+      return changeClass(rng, character, pickOther(rng, CLASS_IDS, character.classId))
+    case 'name':
+      return { ...character, name: pickOther(rng, c.names, character.name) }
+    case 'background':
+      return { ...character, background: pickOther(rng, c.backgrounds, character.background) }
+    case 'characteristic':
+      return { ...character, characteristic: pickOther(rng, c.characteristics, character.characteristic) }
+    case 'trait':
+      return { ...character, trait: pickOther(rng, c.traits, character.trait) }
+    case 'attributes':
+      return { ...character, attributes: rerollUntilDifferent(() => rollAttributes(rng, character.classId), character.attributes) }
+    case 'kit':
+      return { ...character, gear: { ...character.gear, kit: pickOther(rng, [1, 2, 3, 4], character.gear.kit) } }
+    case 'bond':
+      return { ...character, bond: { ...character.bond, text: pickOther(rng, BONDS, character.bond.text) } }
+    case 'spells':
+      if (!isCaster(character.classId)) return character
+      return {
+        ...character,
+        spells: rerollUntilDifferent(() => rollSpells(rng, character.classId).sort(), [...character.spells].sort()),
+      }
   }
 }

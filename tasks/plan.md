@@ -52,12 +52,12 @@ spells.ts, bonds.ts, abilities ────────────────�
 - [x] Task 7: Spells, bonds and class abilities
 
 ### Checkpoint 2: Complete character
-- [ ] Every field in the spec's requirements tables renders
-- [ ] **Human reviews the gear classification in `src/data/gear.ts`**
-- [ ] Tests and build pass
+- [x] Every field in the spec's requirements tables renders
+- [x] **Human reviews the gear classification in `src/data/gear.ts`**
+- [x] Tests and build pass
 
 ### Phase 3: Interaction
-- [ ] Task 8: Per-section re-roll and class change cascade
+- [x] Task 8: Per-section re-roll and class change cascade
 - [ ] Task 9: Manual edits and attribute swaps
 
 ### Checkpoint 3: Interaction

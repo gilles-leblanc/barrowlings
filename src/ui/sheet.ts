@@ -3,6 +3,7 @@ import { gearItems, ITEMS, type ItemName } from '../data/gear'
 import { isCaster, SPELLS } from '../data/spells'
 import { armourValue, hasShield, slotCapacity, startingHp, weaponsWithDamage } from '../rules/derive'
 import type { Character } from '../rules/generate'
+import { rerollButton, type RerollHandler } from './controls'
 
 const ATTRIBUTE_NAMES: Record<AttributeId, string> = {
   str: 'Strength',
@@ -23,22 +24,31 @@ function el<K extends keyof HTMLElementTagNameMap>(
   return node
 }
 
-function field(label: string, value: string | number): HTMLDivElement {
-  return el('div', undefined, [el('dt', label), el('dd', String(value))])
+function field(label: string, value: string | number, button?: HTMLButtonElement): HTMLDivElement {
+  const dd = el('dd', String(value))
+  if (button) dd.append(' ', button)
+  return el('div', undefined, [el('dt', label), dd])
+}
+
+function heading(text: string, button?: HTMLButtonElement): HTMLHeadingElement {
+  const h2 = el('h2', text)
+  if (button) h2.append(' ', button)
+  return h2
 }
 
 /** Renders the character into `container`, replacing what was there. All data goes in as text. */
-export function renderSheet(container: HTMLElement, character: Character): void {
+export function renderSheet(container: HTMLElement, character: Character, onReroll: RerollHandler): void {
   const { attributes } = character
+  const reroll = (section: Parameters<RerollHandler>[0]) => rerollButton(section, onReroll)
 
   const identity = el('dl', undefined, [
-    field('Name', character.name),
-    field('Class', CLASSES[character.classId].name),
+    field('Name', character.name, reroll('name')),
+    field('Class', CLASSES[character.classId].name, reroll('class')),
     field('Level', character.level),
-    field('Background', character.background),
+    field('Background', character.background, reroll('background')),
     field('Deeds', character.deeds),
-    field('Characteristic', character.characteristic),
-    field('Trait', character.trait),
+    field('Characteristic', character.characteristic, reroll('characteristic')),
+    field('Trait', character.trait, reroll('trait')),
   ])
 
   const attributeList = el(
@@ -62,7 +72,7 @@ export function renderSheet(container: HTMLElement, character: Character): void 
   )
 
   const bond = el('dl', undefined, [
-    field('Bond', character.bond.text),
+    field('Bond', character.bond.text, reroll('bond')),
     field('Party Member', character.bond.partyMember),
     field('Languages', character.languages),
   ])
@@ -70,10 +80,10 @@ export function renderSheet(container: HTMLElement, character: Character): void 
   container.replaceChildren(
     el('section', undefined, [el('h2', 'Character'), identity]),
     el('section', undefined, [el('h2', 'Bond & Languages'), bond]),
-    el('section', undefined, [el('h2', 'Attributes'), attributeList]),
+    el('section', undefined, [heading('Attributes', reroll('attributes')), attributeList]),
     el('section', undefined, [el('h2', 'Combat'), combat, el('h3', 'Weapons'), weaponList]),
-    renderInventory(items, slotCapacity(attributes), character.gear.coins),
-    ...renderSpells(character),
+    renderInventory(items, slotCapacity(attributes), character.gear.coins, reroll('kit')),
+    ...renderSpells(character, reroll('spells')),
     renderAbilities(character),
   )
 }
@@ -82,10 +92,10 @@ function described(entries: readonly { name: string; summary: string }[]): HTMLD
   return el('dl', undefined, entries.map((e) => field(e.name, e.summary)))
 }
 
-function renderSpells(character: Character): HTMLElement[] {
+function renderSpells(character: Character, button: HTMLButtonElement): HTMLElement[] {
   if (!isCaster(character.classId)) return []
   const known = SPELLS[character.classId].filter((s) => character.spells.includes(s.name))
-  return [el('section', undefined, [el('h2', 'Spells'), described(known)])]
+  return [el('section', undefined, [heading('Spells', button), described(known)])]
 }
 
 function renderAbilities(character: Character): HTMLElement {
@@ -106,12 +116,12 @@ function slotItem(name: ItemName): HTMLLIElement {
   return li
 }
 
-function renderInventory(items: ItemName[], capacity: number, coins: number): HTMLElement {
+function renderInventory(items: ItemName[], capacity: number, coins: number, button: HTMLButtonElement): HTMLElement {
   const byTag = (...tags: string[]) => items.filter((name) => tags.includes(ITEMS[name].tag))
   const list = (names: ItemName[]) => el('p', names.join(', ') || '—')
 
   return el('section', undefined, [
-    el('h2', 'Inventory'),
+    heading('Inventory', button),
     el('p', `Slots: ${capacity}`),
     el('ol', undefined, byTag('normal', 'encumbering', 'stack').map(slotItem)),
     el('h3', 'Tiny items'),

@@ -174,27 +174,27 @@ npm commands in agent shells: `source ~/.nvm/nvm.sh && npm …`
 ---
 
 ### Checkpoint 2: Complete character
-- [ ] Every field in SPEC.md › requirements renders after one click
-- [ ] **Human reviews the gear classification in `src/data/gear.ts`**
-- [ ] All tests pass, build succeeds
+- [x] Every field in SPEC.md › requirements renders after one click
+- [x] **Human reviews the gear classification in `src/data/gear.ts`** (done 2026-11-14)
+- [x] All tests pass, build succeeds
 
 ---
 
 ## Phase 3: Interaction
 
-### - [ ] Task 8: Per-section re-roll and class change cascade
+### - [x] Task 8: Per-section re-roll and class change cascade
 
 **Description:** Add a re-roll control to each rolled section (class, background, kit, characteristic, trait, name, attributes, bond, spells). Re-rolling one section leaves the others alone; changing class re-rolls background, kit, name, spells and attributes.
 
 **Acceptance criteria:**
-- [ ] `rerollSection(rng, character, section)` changes only that section (tested for every section)
-- [ ] Changing class re-rolls exactly its dependents and keeps languages, bond and the bond's other-character name
-- [ ] Each section has a visible, keyboard-reachable re-roll button with an accessible label
+- [x] `rerollSection(rng, character, section)` changes only that section (tested for every section)
+- [x] Changing class re-rolls exactly its dependents and keeps languages, bond and the bond's other-character name
+- [x] Each section has a visible, keyboard-reachable re-roll button with an accessible label
 
 **Verification:**
-- [ ] Tests pass: `npm test -- tests/generate.test.ts`
-- [ ] Build succeeds: `npm run build`
-- [ ] Manual check: re-roll each section in the browser; nothing else changes
+- [x] Tests pass: `npm test -- tests/generate.test.ts`
+- [x] Build succeeds: `npm run build`
+- [x] Manual check: re-roll each section in the browser; nothing else changes
 
 **Dependencies:** Task 6, Task 7
 

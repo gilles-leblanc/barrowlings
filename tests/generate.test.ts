@@ -118,3 +118,12 @@ describe('generateCharacter', () => {
     expect(generateCharacter(createRng(6))).toEqual(generateCharacter(createRng(6)))
   })
 })
+
+describe('rollAttributes key order', () => {
+  it('always lists attributes in STR, DEX, CON, AWA, PRE order', () => {
+    const rng = createRng(7)
+    for (const classId of CLASS_IDS) {
+      expect(Object.keys(rollAttributes(rng, classId))).toEqual([...ATTRIBUTE_IDS])
+    }
+  })
+})
