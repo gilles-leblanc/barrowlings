@@ -43,9 +43,9 @@ Rules logic never touches the DOM or `Math.random()` directly: randomness is inj
 
 ### GitHub Pages
 
-1. Push the repository to GitHub.
-2. Build locally with `npm run build` and publish the contents of `dist/` to a `gh-pages` branch, or add a GitHub Actions workflow that runs `npm ci && npm run build` and deploys `dist/` with the official Pages actions.
-3. In the repository settings, under **Pages**, choose that branch or **GitHub Actions** as the source.
+The site is published at https://gilles-leblanc.github.io/barrowlings/.
+
+`.github/workflows/deploy.yml` runs on every push to `main`: it installs dependencies, runs the tests, builds, and deploys `dist/` to GitHub Pages. A failing test stops the deploy. To publish a change, commit and push to `main`; you can also re-run it by hand from the repository's **Actions** tab.
 
 ### Netlify or Cloudflare Pages
 
