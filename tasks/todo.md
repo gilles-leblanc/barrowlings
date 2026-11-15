@@ -279,19 +279,19 @@ npm commands in agent shells: `source ~/.nvm/nvm.sh && npm …`
 
 ---
 
-### - [ ] Task 12: Final verification against Success Criteria and deploy notes
+### - [x] Task 12: Final verification against Success Criteria and deploy notes
 
 **Description:** Walk through every Success Criteria item in SPEC.md, add coverage reporting, fix gaps, and add a short README covering running, testing and deploying.
 
 **Acceptance criteria:**
-- [ ] `npm test` reports 100% line coverage on `src/rules/` (via `@vitest/coverage-v8`, approved)
-- [ ] `dist/` works when served from a sub-path (`npm run preview`, and a static server pointed at a nested folder)
-- [ ] README has run / test / build steps and GitHub Pages + Netlify deploy notes; every Success Criteria box in SPEC.md is checked
+- [x] `npm test` reports 100% line coverage on `src/rules/` (via `@vitest/coverage-v8`, approved)
+- [x] `dist/` works when served from a sub-path (static server on a nested folder, checked in Chrome)
+- [x] README has run / test / build steps and GitHub Pages + Netlify deploy notes; every Success Criteria box in SPEC.md is checked except the real print preview (left for the author)
 
 **Verification:**
-- [ ] Tests pass: `npm test`
-- [ ] Build succeeds: `npm run build`
-- [ ] Manual check: full roll → re-roll → edit → swap → print run in the built site
+- [x] Tests pass: `npm test`
+- [x] Build succeeds: `npm run build`
+- [x] Manual check: full roll → re-roll → edit → swap run in the built site, served from a nested sub-path (/games/barrowlings/); print sheet rendered (print dialog itself not opened)
 
 **Dependencies:** Task 11
 

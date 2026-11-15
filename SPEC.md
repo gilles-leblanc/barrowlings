@@ -159,17 +159,17 @@ export function startingHp(attrs: Attributes, classId: ClassId): number {
 
 ## Success Criteria
 
-- [ ] `npm run build` produces a static `dist/` that works when served from any static host (relative asset paths).
-- [ ] One click on **Roll a Character** produces a character with every field in the requirements tables filled (except Languages and the bond's other-character name, which stay blank).
-- [ ] For each class, 1,000 seeded rolls all give attributes that are a permutation of 14/13/10/8/7 with 14 and 13 on matrix-allowed attributes.
-- [ ] HP, slots, AV, shield and weapon damage on the sheet match the derivation rules for every class × kit combination (tested).
-- [ ] Every class × kit fits in 10 inventory slots, except the known Ranger kit 2 (11 slots) (tested).
-- [ ] Items past the character's slot capacity are visibly marked on screen and in print (tested for which items are over).
-- [ ] Each rolled section can be re-rolled on its own without changing other sections (except class, which re-rolls its dependents).
-- [ ] Any two attributes can be swapped, and HP and slots update.
-- [ ] Printing produces page 1 with the full playtest-sheet layout, in black and white, on both A4 and US Letter. Overflow (spells, abilities) goes to page 2 only.
-- [ ] The page is usable at 360px wide, keyboard operable, and meets WCAG AA contrast.
-- [ ] `npm test` passes with 100% line coverage on `src/rules/`.
+- [x] `npm run build` produces a static `dist/` that works when served from any static host (relative asset paths).
+- [x] One click on **Roll a Character** produces a character with every field in the requirements tables filled (except Languages and the bond's other-character name, which stay blank).
+- [x] For each class, 1,000 seeded rolls all give attributes that are a permutation of 14/13/10/8/7 with 14 and 13 on matrix-allowed attributes.
+- [x] HP, slots, AV, shield and weapon damage on the sheet match the derivation rules for every class × kit combination (tested).
+- [x] Every class × kit fits in 10 inventory slots, except the known Ranger kit 2 (11 slots) (tested).
+- [x] Items past the character's slot capacity are visibly marked on screen and in print (tested for which items are over).
+- [x] Each rolled section can be re-rolled on its own without changing other sections (except class, which re-rolls its dependents).
+- [x] Any two attributes can be swapped, and HP and slots update.
+- [ ] Printing produces page 1 with the full playtest-sheet layout, in black and white, on both A4 and US Letter. Overflow (spells, abilities) goes to page 2 only. *(Layout previewed on screen at A4 width: page 1 is 200mm, under Letter's 255mm printable height. Real print preview in Chrome and Firefox still to be checked by the author.)*
+- [x] The page is usable at 360px wide, keyboard operable, and meets WCAG AA contrast. *(Dark-mode contrast checked by computed ratios, not visually.)*
+- [x] `npm test` passes with 100% line coverage on `src/rules/`.
 
 ## Out of Scope (Deferred)
 
