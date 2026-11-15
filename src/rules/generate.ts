@@ -1,5 +1,5 @@
 import { ATTRIBUTE_IDS, CLASS_IDS, CLASSES, type Attributes, type ClassId } from '../data/classes'
-import { pick, shuffle, type Rng } from './dice'
+import { roll, rollMany, pick, shuffle, type Rng } from './dice'
 
 /**
  * p.60 + SPEC.md › class attribute matrix: 14 on an allowed main attribute,
@@ -17,6 +17,17 @@ export function rollAttributes(rng: Rng, classId: ClassId): Attributes {
   return attrs as Attributes
 }
 
+export interface Gear {
+  /** Which d4 class kit (1–4). Items come from `gearItems(classId, kit)`. */
+  kit: number
+  coins: number
+}
+
+/** Class kit (d4, "choose or roll") and 4d4 starting coins (p.31). */
+export function rollGear(rng: Rng): Gear {
+  return { kit: roll(rng, 4), coins: rollMany(rng, 4, 4) }
+}
+
 export interface Character {
   classId: ClassId
   name: string
@@ -24,6 +35,7 @@ export interface Character {
   characteristic: string
   trait: string
   attributes: Attributes
+  gear: Gear
   level: number
   deeds: number
 }
@@ -38,6 +50,7 @@ export function generateCharacter(rng: Rng, classId: ClassId = pick(rng, CLASS_I
     characteristic: pick(rng, c.characteristics),
     trait: pick(rng, c.traits),
     attributes: rollAttributes(rng, classId),
+    gear: rollGear(rng),
     level: 1,
     deeds: 0,
   }

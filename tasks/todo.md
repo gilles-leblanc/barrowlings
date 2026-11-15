@@ -86,7 +86,7 @@ npm commands in agent shells: `source ~/.nvm/nvm.sh && npm …`
 **Verification:**
 - [x] Tests pass: `npm test`
 - [x] Build succeeds: `npm run build`
-- [ ] Manual check: in `npm run dev`, roll 10 times with Random and with each class; fields always populated. **Not done by the agent: Chrome extension was not connected. Dev server served the page and all modules (HTTP 200). Left for the human at Checkpoint 1.**
+- [x] Manual check: in `npm run dev`, roll 10 times with Random and with each class; fields always populated. (Done by the human at Checkpoint 1; the agent's Chrome extension was not connected.)
 
 **Dependencies:** Task 3
 
@@ -97,27 +97,29 @@ npm commands in agent shells: `source ~/.nvm/nvm.sh && npm …`
 ---
 
 ### Checkpoint 1: Foundation
-- [ ] All tests pass
-- [ ] Build succeeds
-- [ ] Roll flow works end-to-end in the browser
-- [ ] Review with human before proceeding
+- [x] All tests pass
+- [x] Build succeeds
+- [x] Roll flow works end-to-end in the browser
+- [x] Review with human before proceeding (passed 2026-11-14)
 
 ---
 
 ## Phase 2: Complete character
 
-### - [ ] Task 5: Gear catalogue, class kits and data integrity tests
+### - [x] Task 5: Gear catalogue, class kits and data integrity tests
 
 **Description:** Encode every item that appears in class fixed gear, the four kits per class, and the common gear (clothes, rations, waterskin). Each item gets a tag following SPEC.md › derived values; weapons get a category, armour an AV, shields a flag. Gear generation picks a kit (d4) and adds 4d4 coins.
 
 **Acceptance criteria:**
-- [ ] Every kit item from pp. 34–58 exists in the catalogue with a tag and, where relevant, weapon category / armour / shield; equipment-list tags (p.76–77) used where they exist
-- [ ] Data integrity test: every class × kit (with fixed and common gear) uses ≤ 10 slots; every class has exactly 4 kits
-- [ ] `rollGear(rng, classId)` returns fixed gear + one kit + common gear + coins in 4…16
+- [x] Every kit item from pp. 34–58 exists in the catalogue with a tag and, where relevant, weapon category / armour / shield; equipment-list tags (p.76–77) used where they exist
+- [x] Data integrity test: every class × kit (with fixed and common gear) uses ≤ 10 slots; every class has exactly 4 kits
+- [x] `rollGear(rng)` returns a kit (1–4) and coins in 4…16; `gearItems(classId, kit)` gives fixed + optional + kit + common gear (character stores the kit choice, items are looked up)
 
 **Verification:**
-- [ ] Tests pass: `npm test -- tests/gear.test.ts`
-- [ ] Build succeeds: `npm run build`
+- [x] Tests pass: `npm test -- tests/gear.test.ts`
+- [x] Build succeeds: `npm run build`
+
+**Notes for Checkpoint 2 review:** items marked `REVIEW` in `src/data/gear.ts`; the Wizard's optional spellbook is always included; Paladin kit 3 has a hunting bow but no arrows (as in the rulebook).
 
 **Dependencies:** Task 2, Task 3
 
