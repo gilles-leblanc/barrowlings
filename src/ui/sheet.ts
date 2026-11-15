@@ -1,7 +1,7 @@
 import { allCharacteristics, allTraits, ATTRIBUTE_IDS, CLASSES, type AttributeId } from '../data/classes'
-import { gearItems, ITEMS, type ItemName } from '../data/gear'
+import { gearItems, ITEMS, SLOT_COST, type ItemName } from '../data/gear'
 import { isCaster, SPELLS } from '../data/spells'
-import { armourValue, hasShield, slotCapacity, startingHp, weaponsWithDamage } from '../rules/derive'
+import { armourValue, hasShield, overLimitIndices, slotCapacity, slotsUsed, startingHp, weaponsWithDamage } from '../rules/derive'
 import type { Character, Section, TextField } from '../rules/generate'
 import { rerollButton } from './controls'
 
@@ -167,7 +167,7 @@ function renderAbilities(character: Character): HTMLElement {
 
 const STACK_CHECKS = 4 // p.25: each stack has 4 checks
 
-function slotItem(name: ItemName): HTMLLIElement {
+function slotItem(name: ItemName, overLimit: boolean): HTMLLIElement {
   const { tag } = ITEMS[name]
   const li = el('li', name)
   if (tag === 'encumbering') li.append(el('span', ' (2 slots)'))
@@ -176,17 +176,32 @@ function slotItem(name: ItemName): HTMLLIElement {
     boxes.setAttribute('aria-label', `stack, ${STACK_CHECKS} checks`)
     li.append(boxes)
   }
+  if (overLimit) {
+    li.className = 'over-limit'
+    li.append(el('span', 'Over limit')) // text marker, not colour alone
+    li.lastElementChild!.className = 'over-label'
+  }
   return li
 }
 
 function renderInventory(items: ItemName[], capacity: number, coins: number, button: HTMLButtonElement): HTMLElement {
   const byTag = (...tags: string[]) => items.filter((name) => tags.includes(ITEMS[name].tag))
   const list = (names: ItemName[]) => el('p', names.join(', ') || '—')
+  const over = new Set(overLimitIndices(items, capacity))
+  const used = slotsUsed(items)
+  const slotItems = items.flatMap((name, i) => (SLOT_COST[ITEMS[name].tag] > 0 ? [slotItem(name, over.has(i))] : []))
+
+  const total = el('p', `Slots: ${used} / ${capacity}`)
+  if (used > capacity) {
+    total.className = 'over-limit'
+    total.append(el('span', ` Over limit by ${used - capacity}`))
+    total.lastElementChild!.className = 'over-label'
+  }
 
   return el('section', undefined, [
     heading('Inventory', button),
-    el('p', `Slots: ${capacity}`),
-    el('ol', undefined, byTag('normal', 'encumbering', 'stack').map(slotItem)),
+    total,
+    el('ol', undefined, slotItems),
     el('h3', 'Tiny items'),
     list(byTag('tiny')),
     el('h3', 'Worn'),

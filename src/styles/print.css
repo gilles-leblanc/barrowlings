@@ -188,6 +188,33 @@
   min-height: 7mm;
 }
 
+/* Capacity line: heavy rule after the last allowed slot, labelled; slots below are shaded. */
+.p-capacity {
+  position: relative;
+  border-bottom: 2.5pt solid #000;
+  padding-bottom: 0.5mm;
+}
+
+.p-capacity::after {
+  content: 'Capacity';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 50%);
+  font-family: var(--font-display);
+  font-size: 6.5pt;
+  line-height: 1;
+  background: #fff;
+  border: 1pt solid #000;
+  padding: 0.3mm 1.5mm;
+}
+
+.p-over {
+  background: #e4e4e4;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
 .p-slot-number {
   font-family: var(--font-display);
   font-size: 9pt;

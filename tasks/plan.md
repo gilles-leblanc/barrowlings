@@ -69,7 +69,7 @@ spells.ts, bonds.ts, abilities ────────────────�
 - [x] Task 11: Print stylesheet
 - [ ] Task 12: Final verification against Success Criteria and deploy notes
 
-- [ ] Task 13: Mark items over the slot limit (screen and print)
+- [x] Task 13: Mark items over the slot limit (screen and print)
 
 ### Checkpoint 4: Complete
 - [ ] Every Success Criteria item in SPEC.md is checked

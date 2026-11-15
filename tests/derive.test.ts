@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { CLASS_IDS, CLASSES, type Attributes } from '../src/data/classes'
-import { gearItems, ITEMS } from '../src/data/gear'
-import { armourValue, DAMAGE_DIE, hasShield, slotCapacity, slotLines, slotsUsed, startingHp, weaponsWithDamage } from '../src/rules/derive'
+import { gearItems, ITEMS, type ItemName } from '../src/data/gear'
+import { armourValue, DAMAGE_DIE, hasShield, overLimitIndices, slotCapacity, slotLines, slotsUsed, startingHp, weaponsWithDamage } from '../src/rules/derive'
 
 function attrs(overrides: Partial<Attributes>): Attributes {
   return { str: 10, dex: 10, con: 10, awa: 10, pre: 10, ...overrides }
@@ -128,5 +128,26 @@ describe('slotLines (print inventory, p.69)', () => {
     for (const classId of CLASS_IDS) {
       for (let kit = 1; kit <= 4; kit++) expect(slotLines(gearItems(classId, kit)).length).toBeLessThanOrEqual(18)
     }
+  })
+})
+
+describe('overLimitIndices (Task 13)', () => {
+  it('returns nothing when everything fits', () => {
+    expect(overLimitIndices(gearItems('ranger', 2), 13)).toEqual([])
+  })
+
+  it('marks the items past capacity: Ranger kit 2 (11 slots) at capacity 10 → the last slot item', () => {
+    const items = gearItems('ranger', 2)
+    expect(overLimitIndices(items, 10).map((i) => items[i])).toEqual(['Waterskin'])
+  })
+
+  it('counts a 2-slot item that straddles the limit as over', () => {
+    const items: ItemName[] = ['Rope', 'Rope', 'Rope', 'Rope', 'Rope', 'Rope', 'Rope', 'Rope', 'Rope', 'Tent']
+    expect(overLimitIndices(items, 10)).toEqual([9])
+  })
+
+  it('never marks tiny or worn items, which take no slots', () => {
+    const items: ItemName[] = ['Tent', 'Tent', 'Tinder box', 'Clothes', 'Rope']
+    expect(overLimitIndices(items, 3).map((i) => items[i])).toEqual(['Tent', 'Rope'])
   })
 })

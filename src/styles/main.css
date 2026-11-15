@@ -290,6 +290,24 @@ button.reroll:hover {
   color: var(--paper);
 }
 
+/* ── Over-limit items (Task 13): accent colour plus a text label ── */
+
+.over-limit {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.over-label {
+  margin-left: var(--space-2);
+  padding: 0 var(--space-1);
+  border: 2px solid var(--accent);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
 /* ── Lists ────────────────────────────────────────── */
 
 ol,

@@ -72,3 +72,18 @@ export function slotLines(items: readonly ItemName[]): SlotLine[] {
     Array.from({ length: SLOT_COST[ITEMS[name].tag] }, (_, i) => ({ name, continued: i > 0 })),
   )
 }
+
+/**
+ * SPEC.md › over-limit items: count slots in carrying order and return the indices of items whose
+ * slots go past `capacity`. A 2-slot item that straddles the limit is over; 0-slot items never are.
+ */
+export function overLimitIndices(items: readonly ItemName[], capacity: number): number[] {
+  const over: number[] = []
+  let used = 0
+  items.forEach((name, i) => {
+    const cost = SLOT_COST[ITEMS[name].tag]
+    used += cost
+    if (cost > 0 && used > capacity) over.push(i)
+  })
+  return over
+}

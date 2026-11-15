@@ -301,19 +301,19 @@ npm commands in agent shells: `source ~/.nvm/nvm.sh && npm …`
 
 ---
 
-### - [ ] Task 13: Mark items over the slot limit (screen and print)
+### - [x] Task 13: Mark items over the slot limit (screen and print)
 
 **Description:** Count gear slots in order (fixed gear, kit, common gear) and mark every item whose slots go past `slotCapacity`. On screen, over-limit items use the accent colour plus a text marker (not colour alone, for accessibility). In print, a heavy rule labelled "Capacity" crosses the inventory grid after the last allowed slot, and the slots below it are lightly shaded (plan decision 4). Added at the author's request after the Checkpoint 2 gear review (Ranger kit 2 needs 11 slots).
 
 **Acceptance criteria:**
-- [ ] `overLimitItems(character)` (or equivalent) returns exactly the items past capacity: none when under, the last item(s) when over; an encumbering item that straddles the limit counts as over (tested, including Ranger kit 2 at STR 10 vs STR 13)
-- [ ] Screen: over-limit items are marked with the accent colour and a visible text label such as "Over limit", and the slot total shows used / capacity
-- [ ] Print: a heavy "Capacity" rule after slot N (N = slot capacity) and lightly shaded slots below it, black and white only
+- [x] `overLimitItems(character)` (or equivalent) returns exactly the items past capacity: none when under, the last item(s) when over; an encumbering item that straddles the limit counts as over (tested, including Ranger kit 2 at STR 10 vs STR 13)
+- [x] Screen: over-limit items are marked with the accent colour and a visible text label such as "Over limit", and the slot total shows used / capacity
+- [x] Print: a heavy "Capacity" rule after slot N (N = slot capacity) and lightly shaded slots below it, black and white only
 
 **Verification:**
-- [ ] Tests pass: `npm test`
-- [ ] Build succeeds: `npm run build`
-- [ ] Manual check: roll Rangers until kit 2 with STR ≤ 10; the last item is marked on screen and the print preview shows the limit
+- [x] Tests pass: `npm test`
+- [x] Build succeeds: `npm run build`
+- [x] Manual check: roll Rangers until kit 2 with STR ≤ 10; the last item is marked on screen and the print preview shows the limit (agent: screen checked in Chrome; print layout previewed on screen, real print preview left for the human)
 
 **Dependencies:** Task 6, Task 11
 

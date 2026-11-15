@@ -2,7 +2,7 @@
 import { ATTRIBUTE_IDS, CLASSES } from '../data/classes'
 import { gearItems, ITEMS, type ItemName } from '../data/gear'
 import { isCaster, SPELLS } from '../data/spells'
-import { armourValue, hasShield, slotLines, startingHp, weaponsWithDamage } from '../rules/derive'
+import { armourValue, hasShield, slotCapacity, slotLines, startingHp, weaponsWithDamage } from '../rules/derive'
 import type { Character } from '../rules/generate'
 import { ATTRIBUTE_NAMES } from './sheet'
 
@@ -29,12 +29,15 @@ function boxes(count: number): HTMLSpanElement {
   return span
 }
 
-function inventory(items: readonly ItemName[]): HTMLDivElement {
+/** Plan decision 4: a heavy "Capacity" rule after the last allowed slot, with the slots below it shaded. */
+function inventory(items: readonly ItemName[], capacity: number): HTMLDivElement {
   const lines = slotLines(items)
   const grid = el('div', 'p-slots')
   for (let i = 0; i < SHEET_SLOTS; i++) {
     const slot = lines[i]
     const row = el('div', 'p-slot')
+    if (i === capacity - 1) row.classList.add('p-capacity')
+    if (i >= capacity) row.classList.add('p-over')
     const text = slot ? (slot.continued ? `${slot.name} (cont.)` : slot.name) : ''
     row.append(el('span', 'p-slot-number', String(i + 1)), el('span', 'p-value', text), boxes(CHECKS_PER_SLOT))
     grid.append(row)
@@ -101,7 +104,7 @@ export function renderPrintSheet(container: HTMLElement, character: Character): 
     header,
     body,
     inventoryTitle,
-    inventory(items),
+    inventory(items, slotCapacity(character.attributes)),
     line('Tiny Items', names('tiny')),
     line('Coins', character.gear.coins, 'p-coins'),
     line('Worn', names('worn'), 'p-worn'),
