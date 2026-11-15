@@ -235,18 +235,18 @@ npm commands in agent shells: `source ~/.nvm/nvm.sh && npm …`
 
 ## Phase 4: Presentation and release
 
-### - [ ] Task 10: Screen visual design and accessibility
+### - [x] Task 10: Screen visual design and accessibility
 
 **Description:** Apply the spec's visual design: near-black on off-white, one accent colour, bold display headings, dark mode, phone-friendly layout, WCAG AA.
 
 **Acceptance criteria:**
-- [ ] Colour tokens on `:root` with a dark-mode override; one accent colour only; all text pairs meet AA contrast
-- [ ] Layout works at 360px with no horizontal scroll; touch targets ≥ 44px
-- [ ] Visible focus styles; all controls keyboard-operable; semantic headings and labels
+- [x] Colour tokens on `:root` with a dark-mode override; one accent colour only; all text pairs meet AA contrast
+- [x] Layout works at 360px with no horizontal scroll; touch targets ≥ 44px
+- [x] Visible focus styles; all controls keyboard-operable; semantic headings and labels
 
 **Verification:**
-- [ ] Build succeeds: `npm run build`
-- [ ] Manual check: Chrome devtools at 360px, light and dark mode; tab through every control; contrast checked in devtools
+- [x] Build succeeds: `npm run build`
+- [x] Manual check: 360px (via a 360px frame; window resize was blocked), light mode screenshots, all controls native buttons/inputs/selects with labels, no horizontal scroll. Dark mode and contrast verified by computed ratios in main.css, not visually (OS setting not switchable from the agent)
 
 **Dependencies:** Task 9
 

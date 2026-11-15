@@ -1,3 +1,4 @@
+import './styles/main.css'
 import { CLASS_IDS, CLASSES, type ClassId } from './data/classes'
 import { defaultRng } from './rules/dice'
 import { editText, generateCharacter, rerollSection, swapAttributes, type Character } from './rules/generate'

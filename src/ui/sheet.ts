@@ -60,7 +60,7 @@ function editable(
     input.type = 'text'
     if (options.list) input.setAttribute('list', options.list)
   } else {
-    input.rows = 2
+    input.rows = 3
   }
   input.addEventListener('input', () => actions.edit(field, input.value))
 
@@ -114,6 +114,7 @@ export function renderSheet(container: HTMLElement, character: Character, action
     undefined,
     ATTRIBUTE_IDS.map((id) => attributeRow(id, attributes[id], actions)),
   )
+  attributeList.className = 'attributes'
 
   const items = gearItems(character.classId, character.gear.kit)
   const weapons = weaponsWithDamage(items, character.classId)
@@ -149,7 +150,9 @@ export function renderSheet(container: HTMLElement, character: Character, action
 }
 
 function described(entries: readonly { name: string; summary: string }[]): HTMLDListElement {
-  return el('dl', undefined, entries.map((e) => field(e.name, e.summary)))
+  const list = el('dl', undefined, entries.map((e) => field(e.name, e.summary)))
+  list.className = 'described'
+  return list
 }
 
 function renderSpells(character: Character, button: HTMLButtonElement): HTMLElement[] {

@@ -65,7 +65,7 @@ spells.ts, bonds.ts, abilities ────────────────�
 - [ ] Tests and build pass
 
 ### Phase 4: Presentation and release
-- [ ] Task 10: Screen visual design and accessibility
+- [x] Task 10: Screen visual design and accessibility
 - [ ] Task 11: Print stylesheet
 - [ ] Task 12: Final verification against Success Criteria and deploy notes
 
