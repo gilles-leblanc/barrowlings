@@ -66,7 +66,7 @@ spells.ts, bonds.ts, abilities ────────────────�
 
 ### Phase 4: Presentation and release
 - [x] Task 10: Screen visual design and accessibility
-- [ ] Task 11: Print stylesheet
+- [x] Task 11: Print stylesheet
 - [ ] Task 12: Final verification against Success Criteria and deploy notes
 
 - [ ] Task 13: Mark items over the slot limit (screen and print)

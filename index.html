@@ -20,11 +20,13 @@
           <option value="">Random</option>
         </select>
         <button type="submit">Roll a Character</button>
+        <button type="button" id="print-button" disabled>Print</button>
       </form>
     </header>
     <main id="sheet" aria-live="polite">
       <p class="empty-state">Pick a class, or leave it on Random, then roll a character.</p>
     </main>
+    <div id="print-sheet"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

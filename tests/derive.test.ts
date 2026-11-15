@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { CLASS_IDS, CLASSES, type Attributes } from '../src/data/classes'
 import { gearItems, ITEMS } from '../src/data/gear'
-import { armourValue, DAMAGE_DIE, hasShield, slotCapacity, slotsUsed, startingHp, weaponsWithDamage } from '../src/rules/derive'
+import { armourValue, DAMAGE_DIE, hasShield, slotCapacity, slotLines, slotsUsed, startingHp, weaponsWithDamage } from '../src/rules/derive'
 
 function attrs(overrides: Partial<Attributes>): Attributes {
   return { str: 10, dex: 10, con: 10, awa: 10, pre: 10, ...overrides }
@@ -101,6 +101,32 @@ describe('gear-derived values', () => {
         const full = items.filter((name) => ITEMS[name].weapon).map((name) => DAMAGE_DIE[ITEMS[name].weapon!])
         expect(weaponsWithDamage(items, classId).map((w) => w.die), `${classId} kit ${kit}`).toEqual(full)
       }
+    }
+  })
+})
+
+describe('slotLines (print inventory, p.69)', () => {
+  it('puts each slot item on one line, an encumbering item on two, and skips tiny and worn items', () => {
+    expect(slotLines(['Rope', 'Tent', 'Tinder box', 'Clothes', 'Torches'])).toEqual([
+      { name: 'Rope', continued: false },
+      { name: 'Tent', continued: false },
+      { name: 'Tent', continued: true },
+      { name: 'Torches', continued: false },
+    ])
+  })
+
+  it('uses as many lines as slotsUsed for every class and kit', () => {
+    for (const classId of CLASS_IDS) {
+      for (let kit = 1; kit <= 4; kit++) {
+        const items = gearItems(classId, kit)
+        expect(slotLines(items)).toHaveLength(slotsUsed(items))
+      }
+    }
+  })
+
+  it('never needs more than the 18 lines on the sheet for any kit', () => {
+    for (const classId of CLASS_IDS) {
+      for (let kit = 1; kit <= 4; kit++) expect(slotLines(gearItems(classId, kit)).length).toBeLessThanOrEqual(18)
     }
   })
 })

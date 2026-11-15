@@ -1,0 +1,221 @@
+/* Print: the playtest sheet layout, pure black and white (SPEC.md › user flow step 3). */
+
+#print-sheet {
+  display: none;
+}
+
+@page {
+  margin: 12mm;
+}
+
+@media print {
+  body {
+    background: #fff;
+    color: #000;
+    font-family: var(--font-body);
+    font-size: 10pt;
+    line-height: 1.25;
+  }
+
+  header,
+  #sheet {
+    display: none !important;
+  }
+
+  #print-sheet {
+    display: block;
+  }
+}
+
+/* Layout rules live outside @media print so the agent can preview them on screen by forcing #print-sheet visible. */
+.p-page {
+  color: #000;
+  background: #fff;
+  width: 100%;
+}
+
+.p-page-2 {
+  break-before: page;
+}
+
+.p-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 22pt;
+  text-align: center;
+  margin: 0 0 4mm;
+}
+
+.p-heading {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 13pt;
+  margin: 0 0 2mm;
+  border-bottom: 1.5pt solid #000;
+}
+
+.p-heading + .p-entry {
+  margin-top: 0;
+}
+
+.p-entry {
+  margin: 0 0 2mm;
+}
+
+.p-label {
+  font-family: var(--font-display);
+  font-size: 9pt;
+  white-space: nowrap;
+}
+
+/* "Label ______" rows */
+.p-line {
+  display: flex;
+  align-items: flex-end;
+  gap: 2mm;
+  min-height: 7mm;
+}
+
+.p-value {
+  flex: 1;
+  min-width: 0;
+  min-height: 5.5mm;
+  border-bottom: 0.75pt solid #000;
+  padding: 0 1mm;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.p-block {
+  display: block;
+  min-height: 6.5mm;
+}
+
+.p-block-label {
+  margin-top: 2mm;
+}
+
+/* Header: Name / Class / Level, Background / Deeds, Bond, Party Member */
+.p-header {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr;
+  column-gap: 5mm;
+}
+
+.p-background,
+.p-bond,
+.p-party {
+  grid-column: span 2;
+}
+
+.p-bond {
+  grid-column: 1 / -1;
+}
+
+.p-bond .p-value {
+  white-space: normal;
+  font-size: 9pt;
+}
+
+.p-party {
+  grid-column: 1 / span 2;
+}
+
+/* Attributes column + details */
+.p-body {
+  display: grid;
+  grid-template-columns: 52mm 1fr;
+  column-gap: 8mm;
+  margin-top: 4mm;
+}
+
+.p-attributes {
+  display: grid;
+  gap: 2.5mm;
+  align-content: start;
+}
+
+.p-attribute {
+  display: grid;
+  grid-template-columns: 1fr 16mm;
+  align-items: center;
+}
+
+.p-attribute-box {
+  height: 11mm;
+  border: 1pt solid #000;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: 15pt;
+}
+
+.p-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 6mm;
+  align-content: start;
+}
+
+.p-details > .p-line:first-child,
+.p-details > .p-block-label,
+.p-details > .p-block {
+  grid-column: 1 / -1;
+}
+
+.p-inline .p-box {
+  margin-bottom: 0.5mm;
+}
+
+/* Inventory: 18 numbered slots in two columns, 4 boxes each */
+.p-inventory-title {
+  margin-top: 5mm;
+}
+
+.p-slots {
+  display: grid;
+  grid-template-rows: repeat(9, auto);
+  grid-auto-flow: column;
+  column-gap: 8mm;
+  margin-bottom: 3mm;
+}
+
+.p-slot {
+  display: flex;
+  align-items: flex-end;
+  gap: 2mm;
+  min-height: 7mm;
+}
+
+.p-slot-number {
+  font-family: var(--font-display);
+  font-size: 9pt;
+  width: 5mm;
+}
+
+.p-boxes {
+  display: inline-flex;
+  gap: 0.8mm;
+}
+
+.p-box {
+  display: inline-grid;
+  place-items: center;
+  width: 4mm;
+  height: 4mm;
+  border: 0.75pt solid #000;
+  font-size: 8pt;
+  line-height: 1;
+}
+
+.p-coins {
+  display: inline-flex;
+  width: 45mm;
+}
+
+.p-worn {
+  display: inline-flex;
+  width: calc(100% - 50mm);
+  margin-left: 4mm;
+}

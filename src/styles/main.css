@@ -120,6 +120,23 @@ select {
   }
 }
 
+#print-button {
+  min-height: 48px;
+  padding: 0 var(--space-6);
+  background: transparent;
+  border: 2px solid var(--rule);
+  border-radius: 0;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
+#print-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 #roll-form button[type='submit']:hover {
   filter: brightness(1.1);
 }

@@ -59,3 +59,16 @@ export function weaponsWithDamage(items: readonly ItemName[], classId: ClassId):
     return category ? [{ name, die: DAMAGE_DIE[effectiveCategory(category, classId)] }] : []
   })
 }
+
+export interface SlotLine {
+  name: ItemName
+  /** True on the second line of a 2-slot (encumbering) item. */
+  continued: boolean
+}
+
+/** Gear laid out on inventory lines, in carrying order: one line per slot used. */
+export function slotLines(items: readonly ItemName[]): SlotLine[] {
+  return items.flatMap((name) =>
+    Array.from({ length: SLOT_COST[ITEMS[name].tag] }, (_, i) => ({ name, continued: i > 0 })),
+  )
+}

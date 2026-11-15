@@ -256,22 +256,24 @@ npm commands in agent shells: `source ~/.nvm/nvm.sh && npm …`
 
 ---
 
-### - [ ] Task 11: Print stylesheet
+### - [x] Task 11: Print stylesheet
 
 **Description:** Print the character on one page using the playtest-sheet layout in pure black and white, with spells and abilities on page 2 only if they don't fit.
 
 **Acceptance criteria:**
-- [ ] Page 1 has Name/Class/Level, Background/Deeds, Bond, attributes column, Languages, Characteristics/Traits, HP/Current, AV/Shield, Weapons, 18 inventory slots with 4 check boxes, Tiny items, Coins, Worn. Controls are hidden
-- [ ] Black and white only; empty Languages and bond name print as blank lines
-- [ ] The longest kit fits page 1 on both A4 and US Letter
+- [x] Page 1 has Name/Class/Level, Background/Deeds, Bond, attributes column, Languages, Characteristics/Traits, HP/Current, AV/Shield, Weapons, 18 inventory slots with 4 check boxes, Tiny items, Coins, Worn. Controls are hidden
+- [x] Black and white only; empty Languages and bond name print as blank lines
+- [x] The longest kit fits page 1 on both A4 and US Letter (measured on screen, see manual check)
 
 **Verification:**
-- [ ] Build succeeds: `npm run build`
-- [ ] Manual check: print preview in Chrome and Firefox, A4 and Letter, for a Wizard (spells) and the Paladin kit with the most items
+- [x] Build succeeds: `npm run build`
+- [ ] Manual check: print preview in Chrome and Firefox, A4 and Letter, for a Wizard (spells) and the Paladin kit with the most items. **Left for the human: the agent cannot open the print dialog. Agent check: print layout previewed on screen at A4 width (186mm): page 1 is 200mm tall (Letter printable 255mm, A4 273mm), no truncated fields with the longest bond.**
 
 **Dependencies:** Task 10
 
 **Files likely touched:** `src/styles/print.css`, `index.html`, `src/ui/sheet.ts`
+
+**Note:** print uses a separate print-only sheet (`src/ui/print.ts`) rendered from the same character, instead of restyling the screen markup: the playtest layout (18 slot lines, blank Current HP) differs too much from the screen form, and text inputs print poorly.
 
 **Estimated scope:** S
 
