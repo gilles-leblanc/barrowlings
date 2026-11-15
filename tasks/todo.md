@@ -151,19 +151,19 @@ npm commands in agent shells: `source ~/.nvm/nvm.sh && npm …`
 
 ---
 
-### - [ ] Task 7: Spells, bonds and class abilities
+### - [x] Task 7: Spells, bonds and class abilities
 
 **Description:** Add level-1 spell lists (Cleric, Witch, Wizard), the 17 bonds, and short class ability summaries. Casters roll 2 distinct level-1 spells; everyone rolls a bond. Render a Bond line with a blank other-character field, a Spells box (casters only) and an Abilities list.
 
 **Acceptance criteria:**
-- [ ] Spell lists match pp. 82, 87, 93 (4 level-1 spells each); casters get 2 distinct spells from their own list; non-casters get none
-- [ ] 17 bonds match pp. 63–64; one is rolled; the other-character name starts empty
-- [ ] Abilities for all seven classes render; Spells box only for casters
+- [x] Spell lists match pp. 82, 87, 93 (4 level-1 spells each); casters get 2 distinct spells from their own list; non-casters get none
+- [x] 17 bonds match pp. 63–64; one is rolled; the other-character name starts empty
+- [x] Abilities for all seven classes render; Spells box only for casters
 
 **Verification:**
-- [ ] Tests pass: `npm test`
-- [ ] Build succeeds: `npm run build`
-- [ ] Manual check: roll a Witch, a Warrior and a Wizard; check spells, bond and abilities
+- [x] Tests pass: `npm test`
+- [x] Build succeeds: `npm run build`
+- [x] Manual check: roll a Witch, a Warrior and a Wizard; check spells, bond and abilities
 
 **Dependencies:** Task 4
 

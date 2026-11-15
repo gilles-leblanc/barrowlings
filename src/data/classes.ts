@@ -29,6 +29,12 @@ export interface ClassData {
   characteristics: readonly string[] // d8
   traits: readonly string[] // d8
   names: readonly string[] // sample names
+  abilities: readonly Ability[]
+}
+
+export interface Ability {
+  name: string
+  summary: string
 }
 
 export const CLASSES: Record<ClassId, ClassData> = {
@@ -47,6 +53,11 @@ export const CLASSES: Record<ClassId, ClassData> = {
     characteristics: ['Well fed', 'Wiry', 'Braids', 'Wears beads', 'Baby face', 'Shaved head', 'Haunted look', 'Stern face'],
     traits: ['Virtuous', 'Zealous', 'Merciful', 'Caring', 'Confident', 'Stubborn', 'Perfectionist', 'Chastises others'],
     names: ['Eamon', 'Jereth', 'Firmin', 'Elric', 'Bate', 'Maera', 'Calista', 'Anwyn', 'Royse', 'Hawise'],
+    // pp. 32–33
+    abilities: [
+      { name: 'Prayers', summary: 'Prepare and cast Divine prayers (see Spellcasting, p.80).' },
+      { name: 'Banish Undead', summary: 'Action: test Presence, modified by the highest HD, per group of Nearby undead. Banished undead take damage equal to your level and flee to Distant for 1d4 + your level Moments.' },
+    ],
   },
   paladin: {
     name: 'Paladin',
@@ -63,6 +74,13 @@ export const CLASSES: Record<ClassId, ClassData> = {
     characteristics: ['Piercing voice', 'Beautiful / Handsome', 'Steely gaze', 'Tall', 'Perfect smile', 'Soothing voice', 'Fiery gaze', 'Streak of prematurely white hair'],
     traits: ['Fair', 'Flowery speech', 'Never lies', 'Protective', 'Haunted past', 'Virtuous', 'Compassionate', 'Prays often'],
     names: ['Aldric', 'Matthias', 'Hadrian', 'Berach', 'Daman', 'Brynne', 'Helene', 'Ysanne', 'Etheldred', 'Catrin'],
+    // pp. 36–37
+    abilities: [
+      { name: 'Lay on Hands', summary: 'Takes Minutes: heal 1 + your level HP and clear Energy Drain. Then test Presence (with disadvantage if already used today); on a failure, no more today.' },
+      { name: 'Rallying Presence', summary: 'You and Nearby allies have advantage on tests to resist fear, charm and paralysis.' },
+      { name: 'Shield Bash', summary: 'Pool of shield bash dice equal to your level. After a successful defence, spend one to hit the attacker for d4. Resets each day.' },
+      { name: 'Interpose', summary: 'Once per day, take the damage a Close creature would receive.' },
+    ],
   },
   ranger: {
     name: 'Ranger',
@@ -79,6 +97,14 @@ export const CLASSES: Record<ClassId, ClassData> = {
     characteristics: ['Rasping voice', 'Missing finger', 'Eye patch', 'Piercings', 'Wild eyes', 'Square jaw and broad shouldered', 'Sun-leathered skin', 'Long tangled hair'],
     traits: ['Searches for omens', 'Talks to animals', 'Mysterious', 'Quiet', 'Brave', 'Friendly', 'Tragic past', 'Wary of strangers'],
     names: ['Edrik', 'Arfred', 'Henrick', 'Jory', 'Harn', 'Sable', 'Isolde', 'Lowri', 'Meiriona', 'Nest'],
+    // pp. 40–41
+    abilities: [
+      { name: 'Tracker', summary: 'Follow tracks over a distance. Test Awareness to learn roughly how many creatures made them and how fast they travel.' },
+      { name: 'Vigilant', summary: 'When Taking Watch, gain advantage, or take both Watches (level ÷ 2 times, minimum 1), then take a normal Watch.' },
+      { name: 'Two-handed weapon fighting', summary: 'With a Simple or Standard weapon in the off hand, after a successful main-hand attack make a second attack for 1d4.' },
+      { name: 'Ambush', summary: 'Once per encounter, add your level to ranged damage against surprised or unaware enemies.' },
+      { name: 'Danger Sense', summary: 'Advantage on Awareness tests to ambush or avoid being surprised.' },
+    ],
   },
   thief: {
     name: 'Thief',
@@ -95,6 +121,14 @@ export const CLASSES: Record<ClassId, ClassData> = {
     characteristics: ['Short', 'Eye-patch', 'Pudgy', 'Narrow face', 'Tattoos', 'Handsome / Beautiful', 'Lithe', 'Shifty eyes'],
     traits: ['Tragic past', 'Manic', 'Hedonist', 'Loves urban legends', 'Thrill seeker', 'Hoards shiny objects', 'Mysterious', 'Gambler'],
     names: ['Silas', 'Perrin', 'Glyn', 'Gerallt', 'Stace', 'Nyx', 'Mira', 'Lira', 'Gladys', 'Gwenneth'],
+    // pp. 44–45
+    abilities: [
+      { name: 'Roguish Talents', summary: 'Advantage on sneak and stealth, climbing, disarming traps, and sleight of hand.' },
+      { name: 'Strike Back', summary: 'On a critical failure when defending, test Dexterity to hit the attacker back for 1d6.' },
+      { name: 'Pick Locks', summary: 'With lock picks, open locks with a Dexterity test.' },
+      { name: 'Finesse', summary: 'Attack with Dexterity instead of Strength using knives, daggers, short swords and rapiers.' },
+      { name: 'Sneak Attack', summary: 'Against an unaware or surprised creature, attack with Dexterity using a Finesse weapon or club for 2d6 (levels 1–2).' },
+    ],
   },
   warrior: {
     name: 'Warrior',
@@ -111,6 +145,12 @@ export const CLASSES: Record<ClassId, ClassData> = {
     characteristics: ['Muscular', 'Wiry', 'Tall', 'Bald', 'Battle standard tattoo', 'Old campaign scar', 'Crooked nose', 'Long haired'],
     traits: ['Brave', 'Stoic', 'Superstitious', 'Prone to laughter', 'Eager', 'Keeps trophies', 'Boastful', 'Rash'],
     names: ['Corvin', 'Rusk', 'Bran', 'Wilmot', 'Finn', 'Meris', 'Sigrid', 'Elska', 'Rowan', 'Meggy'],
+    // pp. 48–49
+    abilities: [
+      { name: 'Dealer of Death', summary: 'Pool of d6 damage dice equal to your level. On an attack, assign them among Close targets, at most 3 per target; test to hit each extra target. Resets each day.' },
+      { name: 'Bend Bars, Lift Gates', summary: 'Advantage on bending bars, lifting portcullises, breaking down doors and smashing objects.' },
+      { name: 'Improvised Weapon', summary: 'Simple weapons and shields deal Standard damage; throw any Simple weapon; any reasonable object works as a Standard weapon but usually breaks.' },
+    ],
   },
   witch: {
     name: 'Witch',
@@ -127,6 +167,13 @@ export const CLASSES: Record<ClassId, ClassData> = {
     characteristics: ['Always dirty', 'Beautiful / Handsome', 'Wild hair littered with branches', 'Spider web tattoos', 'Covered in insect bites', 'Missing teeth', 'Strange birthmark', 'Animal-like eyes'],
     traits: ['Dislikes metal', 'Cryptic', 'Jovial', 'Forgets social customs', 'Mercurial', 'Obsessed by stars and moon', 'Unsettling calm', 'Laughs at odd times'],
     names: ['Charon', 'Corvus', 'Ivar', 'Zephyr', 'Vernon', 'Rhianon', 'Morwen', 'Nimue', 'Ysella', 'Morgan'],
+    // pp. 52–53
+    abilities: [
+      { name: 'Rites', summary: 'Prepare and cast Witch Rites (see Spellcasting, p.80).' },
+      { name: 'Third Eye', summary: 'Detect invisible and polymorphed creatures.' },
+      { name: 'Beast Tongues', summary: 'Speak with animals and insects. They are not obliged to answer or obey.' },
+      { name: 'Omens', summary: 'Once per day, before a test, grant advantage to it (yours or an ally you can communicate with).' },
+    ],
   },
   wizard: {
     name: 'Wizard',
@@ -143,5 +190,11 @@ export const CLASSES: Record<ClassId, ClassData> = {
     characteristics: ['Tattoos of arcane sigils', 'Beautiful / Handsome', 'Odd coloured eyes (heterochromia)', 'Sunken cheeks', 'Long beard / long hair', 'Shaven head', 'Scrawny', 'Long nose'],
     traits: ['Unsettling laugh', 'Feels superior to non-wizards', 'Easily distracted', 'Know-it-all', 'Studious', 'Absent minded', 'Compassionate', 'Oblivious to danger'],
     names: ['Edrien', 'Raven', 'Puck', 'Jan', 'Cefin', 'Eveline', 'Arienne', 'Sage', 'Holly', 'Delphine'],
+    // pp. 56–57
+    abilities: [
+      { name: 'Spells', summary: 'Prepare and cast Arcane spells (see Spellcasting, p.80).' },
+      { name: 'Empowered Magic', summary: 'Once per day, test Presence with disadvantage to extend a spell’s duration one step (Moments → Minutes → Hour → Watch → Day).' },
+      { name: 'Spontaneous Magic', summary: 'Once per day, test Presence with disadvantage to cast a known spell that is not prepared. On a failure it fizzles and you take 1d3 damage per spell level.' },
+    ],
   },
 }

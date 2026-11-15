@@ -1,5 +1,6 @@
 import { ATTRIBUTE_IDS, CLASSES, type AttributeId } from '../data/classes'
 import { gearItems, ITEMS, type ItemName } from '../data/gear'
+import { isCaster, SPELLS } from '../data/spells'
 import { armourValue, hasShield, slotCapacity, startingHp, weaponsWithDamage } from '../rules/derive'
 import type { Character } from '../rules/generate'
 
@@ -60,12 +61,35 @@ export function renderSheet(container: HTMLElement, character: Character): void 
     weapons.map((w) => el('li', `${w.name} (${w.die})`)),
   )
 
+  const bond = el('dl', undefined, [
+    field('Bond', character.bond.text),
+    field('Party Member', character.bond.partyMember),
+    field('Languages', character.languages),
+  ])
+
   container.replaceChildren(
     el('section', undefined, [el('h2', 'Character'), identity]),
+    el('section', undefined, [el('h2', 'Bond & Languages'), bond]),
     el('section', undefined, [el('h2', 'Attributes'), attributeList]),
     el('section', undefined, [el('h2', 'Combat'), combat, el('h3', 'Weapons'), weaponList]),
     renderInventory(items, slotCapacity(attributes), character.gear.coins),
+    ...renderSpells(character),
+    renderAbilities(character),
   )
+}
+
+function described(entries: readonly { name: string; summary: string }[]): HTMLDListElement {
+  return el('dl', undefined, entries.map((e) => field(e.name, e.summary)))
+}
+
+function renderSpells(character: Character): HTMLElement[] {
+  if (!isCaster(character.classId)) return []
+  const known = SPELLS[character.classId].filter((s) => character.spells.includes(s.name))
+  return [el('section', undefined, [el('h2', 'Spells'), described(known)])]
+}
+
+function renderAbilities(character: Character): HTMLElement {
+  return el('section', undefined, [el('h2', 'Abilities'), described(CLASSES[character.classId].abilities)])
 }
 
 const STACK_CHECKS = 4 // p.25: each stack has 4 checks

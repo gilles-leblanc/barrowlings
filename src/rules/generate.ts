@@ -1,4 +1,6 @@
 import { ATTRIBUTE_IDS, CLASS_IDS, CLASSES, type Attributes, type ClassId } from '../data/classes'
+import { BONDS } from '../data/bonds'
+import { isCaster, SPELLS } from '../data/spells'
 import { roll, rollMany, pick, shuffle, type Rng } from './dice'
 
 /**
@@ -28,6 +30,23 @@ export function rollGear(rng: Rng): Gear {
   return { kit: roll(rng, 4), coins: rollMany(rng, 4, 4) }
 }
 
+/** p.81: casters start with 2 first-level spells from their class list; others get none. */
+export function rollSpells(rng: Rng, classId: ClassId): string[] {
+  if (!isCaster(classId)) return []
+  return shuffle(rng, SPELLS[classId]).slice(0, 2).map((spell) => spell.name)
+}
+
+export interface Bond {
+  text: string
+  /** The other character's name, typed by the player. */
+  partyMember: string
+}
+
+/** pp. 63–64: one bond from the list; the other character is filled in at the table. */
+export function rollBond(rng: Rng): Bond {
+  return { text: pick(rng, BONDS), partyMember: '' }
+}
+
 export interface Character {
   classId: ClassId
   name: string
@@ -36,6 +55,10 @@ export interface Character {
   trait: string
   attributes: Attributes
   gear: Gear
+  spells: string[]
+  bond: Bond
+  /** p.62: free text, empty by default, no suggestions (SPEC.md). */
+  languages: string
   level: number
   deeds: number
 }
@@ -51,6 +74,9 @@ export function generateCharacter(rng: Rng, classId: ClassId = pick(rng, CLASS_I
     trait: pick(rng, c.traits),
     attributes: rollAttributes(rng, classId),
     gear: rollGear(rng),
+    spells: rollSpells(rng, classId),
+    bond: rollBond(rng),
+    languages: '',
     level: 1,
     deeds: 0,
   }

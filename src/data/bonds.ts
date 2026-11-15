@@ -1,0 +1,20 @@
+// Bonds. Rulebook: Barrows and Banshees v0.17, pp. 63–64.
+export const BONDS: readonly string[] = [
+  'Party Member and I escaped together from a dungeon where we were imprisoned, fairly or unfairly.',
+  'Party Member and I were part of a short-lived adventuring group. Things ended badly, and we were the only survivors.',
+  'After fleeing my duties, I thought I’d be caught, but Party Member, a stranger at the time, helped me escape under cover of night.',
+  'When my master cast me out during my apprenticeship, Party Member gave me shelter while I got back on my feet.',
+  'Party Member and I once shared a mentor who mysteriously disappeared.',
+  'Party Member and I both trained under the same master. We’ve always competed to gain the upper hand over each other but in a friendly manner.',
+  'Party Member saved my life when I was a teenager. We’ve stayed in touch, and I’m always happy to see them again.',
+  'Party Member is the child of a close friend. I swore to look after them on my friend’s deathbed.',
+  'As a frequent traveler, Party Member became a close friend at one of my regular stops, practically a second family.',
+  'I once had to steal food to survive. Party Member caught me in the act but didn’t rat me out when the guards arrived seconds later.',
+  'Party Member and I grew up in the same settlement and banded together against local thugs and drove them out.',
+  'Party Member and I are brother and sister. Whatever happens we always have each other’s back.',
+  'Party Member and I go way back; we used to volunteer for local militia.',
+  'Party Member was a regular customer of a tavern I used to work at. We always liked to gossip.',
+  'I used to live in the same village as Party Member. One day we had to fend off a goblin together. I still have a scar from that day.',
+  'Me and Party Member both arrived here separately from far away. As outsiders from a common land, we kind of stuck together.',
+  'I’ve committed a petty crime and was asked to help Party Member or their faction as atonement.',
+]
