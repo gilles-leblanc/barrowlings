@@ -64,7 +64,8 @@ The game has no primary stats. This matrix only makes the default roll useful fo
 ### Requirements: derived values
 
 - **Inventory slots:** `max(10, STR)`. Each gear item is tagged `normal` (1 slot), `encumbering` (2), `stack` (1, with 4 check boxes), `tiny` (0) or `worn` (0).
-  - Tagging: equipment-list tags (p.76–77) where they exist; clothing, headwear, cloaks, masks and jewellery are `worn`; fist-sized items (coin, bell, whistle, tinder box, dice, ring, locket) are `tiny`; everything else is `normal`. The full classification lives in `src/data/gear.ts` for the author to review.
+  - Tagging: equipment-list tags (p.76–77) where they exist; clothing, headwear, cloaks, masks and jewellery (including the holy symbol) are `worn`; small items that are clearly fist-sized trinkets (coin, bell, whistle, tinder box, dice, ring, locket) are `tiny`; everything else, including borderline items such as the compass, mirrors, pipe, lock picks and scrolls, is `normal`. The full classification lives in `src/data/gear.ts`.
+  - **Over-limit items:** gear is counted in order (fixed, kit, common). Any item whose slots go past the character's capacity is marked as over the limit, on screen and in print. Known case: Ranger kit 2 needs 11 slots, so a Ranger with STR 10 or less is one slot over.
 - **Armour Value:** only the gambeson counts as armour (Light, AV 1). The leather jerkin, miner's helmet, metal pauldron and fur shoulder wrap are worn flavour items. Otherwise AV 0.
 - **Shield:** checkbox ticked if the gear includes a shield.
 - **Weapons:** every weapon in the gear with its damage die (Simple d4, Standard d6, Martial d8, Two-handed d10). If the class isn't proficient, the weapon drops to the next weaker category it is proficient with (p.18).
@@ -146,7 +147,7 @@ export function startingHp(attrs: Attributes, classId: ClassId): number {
 
 - **Framework:** Vitest. Tests in `tests/`, one file per `src/rules/` module.
 - **Unit tests (seeded RNG)** for every rule in the requirements tables: HP formula; slot count; rolled attributes are a permutation of 14/13/10/8/7 that fits the class matrix; swapping keeps a valid permutation; kit → AV / shield / weapons; proficiency downgrade; coins in 4–16; spell count and eligibility.
-- **Data integrity test:** iterate every class × every kit and check slot usage ≤ 10 (the minimum capacity, since STR 7 still gets 10 slots). Also check every background, characteristic, trait, name and bond table has the expected length (6 / 8 / 8 / 10 / 17).
+- **Data integrity test:** iterate every class × every kit and check slot usage ≤ 10 (the minimum capacity, since STR 7 still gets 10 slots), except known over-capacity kits listed in the test (Ranger kit 2: 11). Also check every background, characteristic, trait, name and bond table has the expected length (6 / 8 / 8 / 10 / 17).
 - **Coverage:** 100% of `src/rules/` lines. UI is not unit-tested.
 - **Manual:** print preview in Chrome and Firefox, at both US Letter and A4; phone-width layout check.
 
@@ -162,7 +163,8 @@ export function startingHp(attrs: Attributes, classId: ClassId): number {
 - [ ] One click on **Roll a Character** produces a character with every field in the requirements tables filled (except Languages and the bond's other-character name, which stay blank).
 - [ ] For each class, 1,000 seeded rolls all give attributes that are a permutation of 14/13/10/8/7 with 14 and 13 on matrix-allowed attributes.
 - [ ] HP, slots, AV, shield and weapon damage on the sheet match the derivation rules for every class × kit combination (tested).
-- [ ] Every class × kit fits in 10 inventory slots (tested).
+- [ ] Every class × kit fits in 10 inventory slots, except the known Ranger kit 2 (11 slots) (tested).
+- [ ] Items past the character's slot capacity are visibly marked on screen and in print (tested for which items are over).
 - [ ] Each rolled section can be re-rolled on its own without changing other sections (except class, which re-rolls its dependents).
 - [ ] Any two attributes can be swapped, and HP and slots update.
 - [ ] Printing produces page 1 with the full playtest-sheet layout, in black and white, on both A4 and US Letter. Overflow (spells, abilities) goes to page 2 only.

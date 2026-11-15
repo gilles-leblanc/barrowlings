@@ -299,6 +299,28 @@ npm commands in agent shells: `source ~/.nvm/nvm.sh && npm …`
 
 ---
 
+### - [ ] Task 13: Mark items over the slot limit (screen and print)
+
+**Description:** Count gear slots in order (fixed gear, kit, common gear) and mark every item whose slots go past `slotCapacity`. On screen, over-limit items use the accent colour plus a text marker (not colour alone, for accessibility). In print, the capacity limit is shown on the inventory grid in black and white (see plan Open Question 1). Added at the author's request after the Checkpoint 2 gear review (Ranger kit 2 needs 11 slots).
+
+**Acceptance criteria:**
+- [ ] `overLimitItems(character)` (or equivalent) returns exactly the items past capacity: none when under, the last item(s) when over; an encumbering item that straddles the limit counts as over (tested, including Ranger kit 2 at STR 10 vs STR 13)
+- [ ] Screen: over-limit items are marked with the accent colour and a visible text label such as "Over limit", and the slot total shows used / capacity
+- [ ] Print: the capacity limit is visible on the inventory grid in black and white, following the approved design
+
+**Verification:**
+- [ ] Tests pass: `npm test`
+- [ ] Build succeeds: `npm run build`
+- [ ] Manual check: roll Rangers until kit 2 with STR ≤ 10; the last item is marked on screen and the print preview shows the limit
+
+**Dependencies:** Task 6, Task 11
+
+**Files likely touched:** `src/rules/derive.ts`, `src/ui/sheet.ts`, `src/styles/main.css`, `src/styles/print.css`, `tests/derive.test.ts`
+
+**Estimated scope:** M
+
+---
+
 ### Checkpoint 4: Complete
 - [ ] All Success Criteria in SPEC.md met
 - [ ] Ready for review

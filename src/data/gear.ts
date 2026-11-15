@@ -5,7 +5,7 @@
 // 2. Clothing, headwear, cloaks, masks and jewellery are `worn`; bags (backpack, sack, quiver) don't count (p.69).
 // 3. Fist-sized items are `tiny` (p.69).
 // 4. Everything else is `normal`.
-// Items marked REVIEW are judgement calls for the author to check (Checkpoint 2).
+// Items not on the equipment list that could be tiny are normal unless clearly jewellery (author review, 2026-11-14).
 
 import { CLASSES, type ClassId, type WeaponCategory } from './classes'
 
@@ -73,26 +73,26 @@ const ITEM_DATA = {
   'Hooded cloak': { tag: 'worn' },
   'Brown cloak': { tag: 'worn' },
   'Clothes': { tag: 'worn' },
-  'Compass': { tag: 'tiny' }, // REVIEW: untagged on p.76; fist-sized
+  'Compass': { tag: 'normal' }, // untagged on p.76; author: normal
   'Crowbar': { tag: 'encumbering' },
   'Firecrackers': { tag: 'tiny' },
   'Skillet': { tag: 'normal' }, // Frying pan
   'Grappling hook': { tag: 'normal' },
   'Small hammer': { tag: 'normal' },
-  'Holy symbol': { tag: 'worn' }, // REVIEW: untagged on p.76; worn as a pendant (jewellery rule)
+  'Holy symbol': { tag: 'worn' }, // untagged on p.76; author: worn as a pendant
   'Holy water': { tag: 'normal' },
   'Hunting horn': { tag: 'normal' },
   'Lantern': { tag: 'normal' },
   'Metal file': { tag: 'normal' },
-  'Small mirror': { tag: 'tiny' }, // REVIEW: untagged on p.77; fist-sized
-  'Signaling mirror': { tag: 'tiny' }, // REVIEW: as small mirror
+  'Small mirror': { tag: 'normal' }, // untagged on p.77; author: normal
+  'Signaling mirror': { tag: 'normal' }, // author: normal
   'Flute': { tag: 'normal' }, // Musical instrument
   'Oil': { tag: 'stack' },
   'Oiled leather tarpaulin': { tag: 'normal' },
   'Parchment': { tag: 'stack' },
   'Blank parchment': { tag: 'stack' },
   'Large bear pelt': { tag: 'encumbering' }, // Pelt, large (encumbering)
-  'Pipe and pipe leaf': { tag: 'tiny' }, // REVIEW: untagged on p.77; fist-sized
+  'Pipe and pipe leaf': { tag: 'normal' }, // untagged on p.77; author: normal
   'Rations': { tag: 'stack' },
   'Rope': { tag: 'normal' },
   'Large sack': { tag: 'worn' }, // bag: doesn't count (p.69)
@@ -101,7 +101,7 @@ const ITEM_DATA = {
   'Iron spikes': { tag: 'stack' },
   'Tent': { tag: 'encumbering' },
   'Tinder box': { tag: 'tiny' },
-  'Lock picks': { tag: 'tiny' }, // Thieves' tools (lock pick); REVIEW: untagged on p.77
+  'Lock picks': { tag: 'normal' }, // Thieves' tools (lock pick), untagged on p.77; author: normal
   'Torches': { tag: 'stack' },
   'Twine': { tag: 'normal' },
   'Waterskin': { tag: 'normal' },
@@ -153,9 +153,9 @@ const ITEM_DATA = {
   'Felt hat': { tag: 'worn' },
 
   // ── Tiny: fits in a closed fist ─────────────────────
-  'Scroll with religious poem': { tag: 'tiny' }, // REVIEW
-  'Sweets': { tag: 'tiny' }, // REVIEW
-  'Cup and dice': { tag: 'tiny' }, // REVIEW
+  'Scroll with religious poem': { tag: 'normal' }, // author: normal
+  'Sweets': { tag: 'normal' }, // author: normal
+  'Cup and dice': { tag: 'normal' }, // author: normal
   'Family heirloom locket': { tag: 'tiny' },
   'Signet ring': { tag: 'tiny' },
   'Dried giant rat tail': { tag: 'tiny' },
@@ -174,7 +174,7 @@ const ITEM_DATA = {
 
   // ── Normal: everything else (1 slot) ────────────────
   'Wooden chalice': { tag: 'normal' },
-  'Banner': { tag: 'normal' }, // REVIEW: could be encumbering if it has a pole
+  'Banner': { tag: 'normal' },
   'Candlestick': { tag: 'normal' },
   'Metal wire': { tag: 'normal' },
   'Lucky deer skull': { tag: 'normal' },
@@ -190,7 +190,7 @@ const ITEM_DATA = {
   'Yew dowsing rod': { tag: 'normal' },
   'Star charts': { tag: 'normal' },
   'Small crystal ball': { tag: 'normal' },
-  'Wand': { tag: 'normal' }, // REVIEW: could be tiny
+  'Wand': { tag: 'normal' },
   'Small scale': { tag: 'normal' },
   'Spellbook': { tag: 'normal' },
 } satisfies Record<string, Item>

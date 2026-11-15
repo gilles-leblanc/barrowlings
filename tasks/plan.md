@@ -69,6 +69,8 @@ spells.ts, bonds.ts, abilities ────────────────�
 - [ ] Task 11: Print stylesheet
 - [ ] Task 12: Final verification against Success Criteria and deploy notes
 
+- [ ] Task 13: Mark items over the slot limit (screen and print)
+
 ### Checkpoint 4: Complete
 - [ ] Every Success Criteria item in SPEC.md is checked
 - [ ] Ready for review
@@ -90,4 +92,4 @@ spells.ts, bonds.ts, abilities ────────────────�
 
 ## Open Questions
 
-None.
+1. **Over-limit marking in print (Task 13).** Proposal: draw a heavy rule across the inventory grid after the character's last allowed slot, label it "Capacity", and shade the slots below it, so anything written or printed past the line is visibly over. Works in black and white and still helps once the sheet is filled in by hand. Decide before Task 13.

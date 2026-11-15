@@ -18,9 +18,16 @@ describe('gear catalogue and kits (pp. 34–58, 69–77)', () => {
     for (const name of names) expect(ITEMS, name).toHaveProperty([name])
   })
 
-  it.each(CLASS_IDS)('%s: every kit fits in 10 slots with fixed and common gear', (classId) => {
+  // Known over-capacity kit (author review, 2026-11-14): Ranger kit 2 needs 11 slots, so a
+  // Ranger with STR 10 or less carries one slot over the limit. Over-limit marking is Task 13.
+  const OVER_TEN = { ranger: { 2: 11 } } as Partial<Record<string, Record<number, number>>>
+
+  it.each(CLASS_IDS)('%s: every kit fits in 10 slots with fixed and common gear, except the known exceptions', (classId) => {
     for (let kit = 1; kit <= 4; kit++) {
-      expect(slotsFor(gearItems(classId, kit)), `${classId} kit ${kit}`).toBeLessThanOrEqual(10)
+      const expected = OVER_TEN[classId]?.[kit]
+      const slots = slotsFor(gearItems(classId, kit))
+      if (expected) expect(slots, `${classId} kit ${kit}`).toBe(expected)
+      else expect(slots, `${classId} kit ${kit}`).toBeLessThanOrEqual(10)
     }
   })
 
