@@ -167,6 +167,13 @@ function renderAbilities(character: Character): HTMLElement {
 
 const STACK_CHECKS = 4 // p.25: each stack has 4 checks
 
+/** The "Over limit" tag: a text marker, so the state doesn't rely on colour alone. */
+function overLabel(text: string): HTMLSpanElement {
+  const label = el('span', text)
+  label.className = 'over-label'
+  return label
+}
+
 function slotItem(name: ItemName, overLimit: boolean): HTMLLIElement {
   const { tag } = ITEMS[name]
   const li = el('li', name)
@@ -178,8 +185,7 @@ function slotItem(name: ItemName, overLimit: boolean): HTMLLIElement {
   }
   if (overLimit) {
     li.className = 'over-limit'
-    li.append(el('span', 'Over limit')) // text marker, not colour alone
-    li.lastElementChild!.className = 'over-label'
+    li.append(overLabel('Over limit'))
   }
   return li
 }
@@ -194,8 +200,7 @@ function renderInventory(items: ItemName[], capacity: number, coins: number, but
   const total = el('p', `Slots: ${used} / ${capacity}`)
   if (used > capacity) {
     total.className = 'over-limit'
-    total.append(el('span', ` Over limit by ${used - capacity}`))
-    total.lastElementChild!.className = 'over-label'
+    total.append(overLabel(`Over limit by ${used - capacity}`))
   }
 
   return el('section', undefined, [

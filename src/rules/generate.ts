@@ -1,4 +1,4 @@
-import { ATTRIBUTE_IDS, CLASS_IDS, CLASSES, type AttributeId, type Attributes, type ClassId } from '../data/classes'
+import { ATTRIBUTE_ARRAY, ATTRIBUTE_IDS, CLASS_IDS, CLASSES, type AttributeId, type Attributes, type ClassId } from '../data/classes'
 import { BONDS } from '../data/bonds'
 import { isCaster, SPELLS } from '../data/spells'
 import { roll, rollMany, pick, shuffle, type Rng } from './dice'
@@ -11,12 +11,16 @@ export function rollAttributes(rng: Rng, classId: ClassId): Attributes {
   const { mainAttributes, secondaryAttributes } = CLASSES[classId]
   const main = pick(rng, mainAttributes)
   const secondary = pick(rng, secondaryAttributes.filter((id) => id !== main))
-  const restValues = shuffle(rng, [10, 8, 7])
+  const [mainValue, secondaryValue, ...rest] = ATTRIBUTE_ARRAY
+  const restValues = shuffle(rng, rest)
 
+  const valueFor = (id: AttributeId): number => {
+    if (id === main) return mainValue
+    if (id === secondary) return secondaryValue
+    return restValues.shift()!
+  }
   // Keys always come out in ATTRIBUTE_IDS order, so equal attributes compare equal.
-  return Object.fromEntries(
-    ATTRIBUTE_IDS.map((id) => [id, id === main ? 14 : id === secondary ? 13 : restValues.shift()!]),
-  ) as Attributes
+  return Object.fromEntries(ATTRIBUTE_IDS.map((id) => [id, valueFor(id)])) as Attributes
 }
 
 export interface Gear {
