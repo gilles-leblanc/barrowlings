@@ -2,7 +2,7 @@
 import { ATTRIBUTE_IDS, CLASSES } from '../data/classes'
 import { gearItems, ITEMS, type ItemName } from '../data/gear'
 import { isCaster, SPELLS } from '../data/spells'
-import { armourValue, hasShield, slotCapacity, slotLines, startingHp, weaponsWithDamage } from '../rules/derive'
+import { armourValue, hasShield, slotCapacity, slotLines, startingHp, weaponsWithDamage, type SlotLine } from '../rules/derive'
 import type { Character } from '../rules/generate'
 import { ATTRIBUTE_NAMES } from './sheet'
 
@@ -29,17 +29,20 @@ function boxes(count: number): HTMLSpanElement {
   return span
 }
 
+function slotText(slot: SlotLine | undefined): string {
+  if (!slot) return ''
+  return slot.continued ? `${slot.name} (cont.)` : slot.name
+}
+
 /** Plan decision 4: a heavy "Capacity" rule after the last allowed slot, with the slots below it shaded. */
 function inventory(items: readonly ItemName[], capacity: number): HTMLDivElement {
   const lines = slotLines(items)
   const grid = el('div', 'p-slots')
   for (let i = 0; i < SHEET_SLOTS; i++) {
-    const slot = lines[i]
     const row = el('div', 'p-slot')
     if (i === capacity - 1) row.classList.add('p-capacity')
     if (i >= capacity) row.classList.add('p-over')
-    const text = slot ? (slot.continued ? `${slot.name} (cont.)` : slot.name) : ''
-    row.append(el('span', 'p-slot-number', String(i + 1)), el('span', 'p-value', text), boxes(CHECKS_PER_SLOT))
+    row.append(el('span', 'p-slot-number', String(i + 1)), el('span', 'p-value', slotText(lines[i])), boxes(CHECKS_PER_SLOT))
     grid.append(row)
   }
   return grid
@@ -48,7 +51,7 @@ function inventory(items: readonly ItemName[], capacity: number): HTMLDivElement
 export function renderPrintSheet(container: HTMLElement, character: Character): void {
   const c = CLASSES[character.classId]
   const items = gearItems(character.classId, character.gear.kit)
-  const names = (tag: string) => items.filter((name) => ITEMS[name].tag === tag).join(', ')
+  const itemsTagged = (tag: string) => items.filter((name) => ITEMS[name].tag === tag).join(', ')
   const weapons = weaponsWithDamage(items, character.classId).map((w) => `${w.name} (${w.die})`)
   const bond = character.bond.partyMember
     ? character.bond.text.replaceAll('Party Member', character.bond.partyMember)
@@ -105,9 +108,9 @@ export function renderPrintSheet(container: HTMLElement, character: Character): 
     body,
     inventoryTitle,
     inventory(items, slotCapacity(character.attributes)),
-    line('Tiny Items', names('tiny')),
+    line('Tiny Items', itemsTagged('tiny')),
     line('Coins', character.gear.coins, 'p-coins'),
-    line('Worn', names('worn'), 'p-worn'),
+    line('Worn', itemsTagged('worn'), 'p-worn'),
   )
 
   const page2 = el('div', 'p-page p-page-2')
